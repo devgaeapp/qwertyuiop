@@ -1,2 +1,6 @@
+div(id="fb-root")
 h1= title
 p Welcome to #{title}
+fb:login-button(show-faces="true", width="400", max-rows="1", scope="publish_actions")
+button(onclick="postFeed()") Post UI
+button(onclick="postFeedNoUI()") Post No UI
