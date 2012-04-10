@@ -70,7 +70,7 @@ function postFeed() {
 
 function loginFb() {
 	  FB.init({
-	    appId      : '332838813435903', // App ID 265960760161504
+	    appId      : '416264245068541', // App ID 265960760161504, 416264245068541
 	    status     : true, // check login status
 	    cookie     : true, // enable cookies to allow the server to access the session
 	    xfbml      : true, // parse XFBML
@@ -129,7 +129,7 @@ function loginCallback(response) {
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '332838813435903', // App ID 265960760161504
+    appId      : '416264245068541', // App ID 265960760161504, 416264245068541
     status     : true, // check login status
     cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true, // parse XFBML
