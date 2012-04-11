@@ -1,6 +1,28 @@
-div(id="fb-root")
-h1= title
-p Welcome to #{title}
-fb:login-button(show-faces="true", width="400", max-rows="1", scope="publish_actions")
-button(onclick="postFeed()") Post UI
-button(onclick="postFeedNoUI()") Post No UI
+div(id="wrapper")
+	div(id="content")
+		div(class="header")
+			table(width="100%")
+				tr
+					td(width="480px", valign="center")
+						img(src="http://www.tooctac.com/p/619168")
+					td(width="288px")
+						div
+
+					td(width="256px")
+						div(class="rightalignblock")
+							div(class="boldwhite", id="username")
+							
+							
+
+		div(id="main")
+			table(width="100%", border="1")
+				tr
+					td(width="480px")
+						div abc
+					td(width="288px")
+						div
+							<a href="#" class="blogbutton">my button</a>
+					td(width="256px")
+						div
+							div(id="fb-root")
+							button(onclick="loginFb()", id="altlogin") Log In

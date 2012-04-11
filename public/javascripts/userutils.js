@@ -1,7 +1,8 @@
 
 function loadUserData(fbResponse) {
-	FB.api('/me/friends', function(response) {
+	FB.api('/me', function(response) {
 	  console.log(JSON.stringify(response));
+	  $('#username').html(response.name);
 	});	
 }
 
@@ -34,6 +35,27 @@ function postFeed() {
 	);
 }
 
+function loginFb() {
+	  FB.init({
+	    appId      : '332838813435903', // App ID
+	    status     : true, // check login status
+	    cookie     : true, // enable cookies to allow the server to access the session
+	    xfbml      : true, // parse XFBML
+	    frictionlessRequests:true,
+	    channelUrl : 'http://localhost:8000/javascripts/channel.html'
+	  });
+
+	FB.login(function(response) {
+	   if (response.authResponse) {
+	     console.log('Welcome!  Fetching your information.... ');
+	     $('#altlogin').remove();
+	     loadUserData(response);
+	   } else {
+	     console.log('User cancelled login or did not fully authorize.');
+	   }
+	 });
+}
+
 
 function postFeedNoUI() {
 	var params = {};
@@ -52,3 +74,54 @@ function postFeedNoUI() {
 	  }
 	});
 }
+
+ function sendRequestViaMultiFriendSelector() {
+	FB.ui({method: 'apprequests',
+	  message: 'My Great Request',
+	  display: 'popup',
+	}, requestCallback);
+}
+
+function requestCallback(response) {
+// Handle callback here
+}
+
+function loginCallback(response) {
+  if (response.status == 'connected') {
+      console.log('connected, OK?')
+      loadUserData(response);
+  }
+
+  console.log('response=' + JSON.stringify(response));
+}
+
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '332838813435903', // App ID
+    status     : true, // check login status
+    cookie     : true, // enable cookies to allow the server to access the session
+    xfbml      : true, // parse XFBML
+    frictionlessRequests:true,
+    channelUrl : 'http://localhost:8000/javascripts/channel.html'
+  });
+
+  $('#altlogin').remove();
+
+  FB.getLoginStatus(function(response){
+        // alert('The status of the session is: ' + JSON.stringify(response));
+        loginCallback(response);
+    });
+};
+
+// Load the SDK Asynchronously
+(function(d){
+  var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+  js = d.createElement('script'); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js";
+  d.getElementsByTagName('head')[0].appendChild(js);
+}(document));
+
+FB.Event.subscribe('auth.authResponseChange', function(response) {
+  // alert('The status of the session is: ' + response.status);
+  loginCallback(response);
+});
