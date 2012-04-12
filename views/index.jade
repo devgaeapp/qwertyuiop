@@ -3,26 +3,29 @@ div(id="wrapper")
 		div(class="header")
 			table(width="100%")
 				tr
-					td(width="480px", valign="center")
-						img(src="http://www.tooctac.com/p/619168")
-					td(width="288px")
+					td(width="100px", valign="center")
+						div(style="padding-right:20px;")
+							img(src="http://www.tooctac.com/p/619168")
+					td
 						div
+							input(id="mysearch2", type="search", placeholder="search blogs", class="inputboxclass")
 
-					td(width="256px")
+					td
 						div(class="rightalignblock")
 							div(class="boldwhite", id="username")
+							a(href="#", class="blogbutton", onclick="loginFb()", id="altlogin") Log in via Facebook
 							
 							
 
 		div(id="main")
-			table(width="100%", border="1")
+			table(width="100%", style="border-spacing: 10px 5px;", valign="top")
 				tr
 					td(width="480px")
-						div abc
+						div(class="contentpanel")
 					td(width="288px")
-						div
-							<a href="#" class="blogbutton">my button</a>
+						div(class="contentpanel")
+							
 					td(width="256px")
 						div
 							div(id="fb-root")
-							button(onclick="loginFb()", id="altlogin") Log In
+							
