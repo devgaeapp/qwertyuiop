@@ -1,7 +1,7 @@
 body
   margin: 0px
   font: 11px "Tahoma", Helvetica, Arial, sans-serif
-  background-color: #E0E0E0
+  background-color: #fff
 
 #wrapper 
    margin: 0 auto
@@ -9,6 +9,7 @@ body
 
 #content 
     width: 100%
+    margin: 0 auto
     
 
 .header
@@ -16,6 +17,7 @@ body
 	height: 30px
 	text-align: left
 	padding: 4px 2px 4px 2px
+	margin: 0 auto
 
 .boldwhite
 	color: #FFF
@@ -43,12 +45,12 @@ body
 	padding:3px 14px
 	text-decoration:none
 	text-shadow:1px 1px 16px #ffffff
+	cursor: pointer
 
 .blogbutton:hover 
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dbdbdb), color-stop(1, #ffffff) )
 	background:-moz-linear-gradient( center top, #dbdbdb 5%, #ffffff 100% )
 	background-color:#dbdbdb
-
 
 .blogbutton:active 
 	position:relative
@@ -57,6 +59,10 @@ body
 .inputboxclass
 	font-family:Tahoma
 	font-size: 11px
+	min-height:24px
+	min-width: 280px
+	border: solid 1px #AAAAAA
+	border-radius: 6px
 
 .contentpanel
 	background-color:#ffffff
@@ -67,3 +73,45 @@ body
 	box-shadow: 0px 1px 5px 0px #666666
 	-moz-border-radius:2px
 	-webkit-border-radius:2px
+	margin-bottom: 10px;
+	margin-right: 20px;
+
+.smallimg
+	width: 24px
+	height: 24px
+	vertical-align:middle
+
+.content-column
+	border-right: solid 2px #AAA
+
+.content-segment
+	border-bottom: solid 1px #CCC
+	padding: 10px 4px 4px 4px
+
+.link-text
+	padding: 2px 4px 0px 2px
+	border-bottom: dotted 1px #888
+	color: #444
+	cursor: pointer
+	font-weight: bold
+
+.hover-text
+	margin: 0px 10px 0px 4px
+	padding: 2px 4px 2px 4px
+	color: #444
+	cursor: pointer
+	font-weight: bold
+	border-radius: 4px
+
+.hover-text:hover
+	color: #fff
+	background-color: #AAA
+
+.hover-text-sel
+	margin: 0px 10px 0px 4px
+	padding: 2px 4px 2px 4px
+	color: #fff
+	background-color: #888
+	cursor: pointer
+	font-weight: bold
+	border-radius: 4px

@@ -1,7 +1,7 @@
 div(id="wrapper")
 	div(id="content")
 		div(class="header")
-			table(width="100%")
+			table(width="100%", border-spacing="0px")
 				tr
 					td(width="100px", valign="center")
 						div(style="padding-right:20px;")
@@ -10,22 +10,36 @@ div(id="wrapper")
 						div
 							input(id="mysearch2", type="search", placeholder="search blogs", class="inputboxclass")
 
-					td
+					td(valign="middle")
 						div(class="rightalignblock")
-							div(class="boldwhite", id="username")
+							span(id="propic")
+							span(class="boldwhite", id="username", style="margin: 5px;")
 							a(href="#", class="blogbutton", onclick="loginFb()", id="altlogin") Log in via Facebook
 							
 							
 
-		div(id="main")
-			table(width="100%", style="border-spacing: 10px 5px;", valign="top")
+		div(id="main", style="margin: 0;")
+			table(width="100%", valign="top", border-spacing="0px")
 				tr
-					td(width="480px")
-						div(class="contentpanel")
-					td(width="288px")
-						div(class="contentpanel")
+					td(width="480px", valign="top")
+						div(class="content-column")
+							div(class="content-segment")
+								div
+									span(class="hover-text", onclick="showblogui()") Write a blog post
+									span
+									span(class="hover-text", onclick="showstatusui()") Add a status line
+								br
+								div(id="writediv")
+								br
+
+
+							div def
+
+						
+					td(width="288px", valign="top")
+						
 							
-					td(width="256px")
+					td(width="256px", valign="top")
 						div
 							div(id="fb-root")
 							

@@ -3,6 +3,7 @@ function loadUserData(fbResponse) {
 	FB.api('/me', function(response) {
 	  console.log(JSON.stringify(response));
 	  $('#username').html(response.name);
+	  $('#propic').html('<img src="http://graph.facebook.com/' + response.username  + '/picture" class="smallimg"/>')
 	});	
 }
 
@@ -37,7 +38,7 @@ function postFeed() {
 
 function loginFb() {
 	  FB.init({
-	    appId      : '332838813435903', // App ID
+	    appId      : '332838813435903', // App ID 265960760161504
 	    status     : true, // check login status
 	    cookie     : true, // enable cookies to allow the server to access the session
 	    xfbml      : true, // parse XFBML
@@ -97,7 +98,7 @@ function loginCallback(response) {
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '332838813435903', // App ID
+    appId      : '332838813435903', // App ID 265960760161504
     status     : true, // check login status
     cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true, // parse XFBML
@@ -125,3 +126,14 @@ FB.Event.subscribe('auth.authResponseChange', function(response) {
   // alert('The status of the session is: ' + response.status);
   loginCallback(response);
 });
+
+
+function showblogui() {
+	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton">Post</a></div>');
+	makePhoneticEditor('post_title');
+	makePhoneticEditor('post_content');
+}
+
+function showstatusui() {
+	$('#writediv').html('<div><input type="text" placeholder="type your one liner, then press ENTER" style="width: 466px;"></div>');
+}
