@@ -9,13 +9,14 @@ div(id="wrapper")
 					td
 						div
 							input(id="mysearch2", type="search", placeholder="search blogs", class="inputboxclass")
-
-					td(valign="middle")
+					td
 						div(class="rightalignblock")
 							span(id="propic")
-							span(class="boldwhite", id="username", style="margin: 5px;")
+							span(id="profilehome", class="boldwhite")
+							span(id="profilehomearrow", class="menulink", onclick="showhomemenu()")
 							a(href="#", class="blogbutton", onclick="loginFb()", id="altlogin") Log in via Facebook
-							
+					
+
 							
 
 		div(id="main", style="margin: 0;")
@@ -23,21 +24,20 @@ div(id="wrapper")
 				tr
 					td(width="480px", valign="top")
 						div(class="content-column")
-							div(class="content-segment")
+							div(class="content-segment", style="background-color: #EEE;")
 								div
-									span(class="hover-text", onclick="showblogui()") Write a blog post
+									span(class="hover-text", onclick="showblogui()", id="writeblogdiv") Write a blog post
 									span
 									span(class="hover-text", onclick="showstatusui()") Add a status line
 								br
 								div(id="writediv")
-								br
 
 
 							div def
 
 						
 					td(width="288px", valign="top")
-						
+
 							
 					td(width="256px", valign="top")
 						div

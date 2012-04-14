@@ -1,9 +1,11 @@
-
+﻿
 function loadUserData(fbResponse) {
 	FB.api('/me', function(response) {
 	  console.log(JSON.stringify(response));
-	  $('#username').html(response.name);
-	  $('#propic').html('<img src="http://graph.facebook.com/' + response.username  + '/picture" class="smallimg"/>')
+	  $('#profilehome').html(response.name);
+	  $('#profilehomearrow').html('▼');
+
+	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>')
 	});	
 }
 
@@ -49,7 +51,6 @@ function loginFb() {
 	FB.login(function(response) {
 	   if (response.authResponse) {
 	     console.log('Welcome!  Fetching your information.... ');
-	     $('#altlogin').remove();
 	     loadUserData(response);
 	   } else {
 	     console.log('User cancelled login or did not fully authorize.');
@@ -91,6 +92,7 @@ function loginCallback(response) {
   if (response.status == 'connected') {
       console.log('connected, OK?')
       loadUserData(response);
+      $('#altlogin').remove();
   }
 
   console.log('response=' + JSON.stringify(response));
@@ -105,8 +107,6 @@ window.fbAsyncInit = function() {
     frictionlessRequests:true,
     channelUrl : 'http://localhost:8000/javascripts/channel.html'
   });
-
-  $('#altlogin').remove();
 
   FB.getLoginStatus(function(response){
         // alert('The status of the session is: ' + JSON.stringify(response));
@@ -129,11 +129,24 @@ FB.Event.subscribe('auth.authResponseChange', function(response) {
 
 
 function showblogui() {
-	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton">Post</a></div>');
+	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton">Post</a></div><br />');
 	makePhoneticEditor('post_title');
 	makePhoneticEditor('post_content');
+	$('#writeblogdiv').attr('class', 'hover-text-sel');
 }
 
 function showstatusui() {
-	$('#writediv').html('<div><input type="text" placeholder="type your one liner, then press ENTER" style="width: 466px;"></div>');
+	$('#writediv').html('<div><input type="text" placeholder="type your one liner, then press ENTER" style="width: 466px;"></div><br />');
+}
+
+function showhomemenu() {
+
+	var $homearrow = $('#profilehomearrow');
+	var right = $(document).width() - $homearrow.offset().left - $homearrow.outerWidth() - 1;
+	var top = $homearrow.offset().top + $homearrow.outerHeight();
+
+	$homearrow.attr('class', 'menulink-sel');
+
+	$('#content').append('<div style="right: ' + right + 'px; top: ' + top + 'px;" class="dropdownmenu">' + 
+		'abc</div>');
 }
