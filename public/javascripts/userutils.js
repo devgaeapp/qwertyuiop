@@ -1,11 +1,41 @@
-﻿
+﻿var accessToken = null;
+var userId = null;
+var userName = null;
+var userDataLoaded = false;
+
+function pingBack() {
+	var data = {
+		accessToken : accessToken,
+		userId : userId
+	};
+
+	console.log('accessToken: ' + accessToken);
+	console.log('POSTDATA: ' + JSON.stringify(data));
+
+	$.post('/ping', data, function(response) {
+		$('#result').html(response);
+	});
+}
+
 function loadUserData(fbResponse) {
+	if (userDataLoaded) return;
+	console.log('fbResponse: ' + JSON.stringify(fbResponse));
+	accessToken = response.authResponse.accessToken;
+
 	FB.api('/me', function(response) {
 	  console.log(JSON.stringify(response));
+	  
+	  userId = response.id;
+	  userName = response.name;
+
 	  $('#profilehome').html(response.name);
 	  $('#profilehomearrow').html('▼');
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
+
+	  pingBack();
+
+	  userDataLoaded = true;
 	});	
 }
 
@@ -108,7 +138,6 @@ window.fbAsyncInit = function() {
   });
 
   FB.getLoginStatus(function(response){
-        // alert('The status of the session is: ' + JSON.stringify(response));
         loginCallback(response);
     });
 };

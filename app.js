@@ -7,6 +7,9 @@ var express = require('express')
   , routes = require('./routes')
   , ejs = require('ejs');
 
+var redis = require("redis"),
+    client = redis.createClient();
+
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -31,14 +34,14 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/abc', routes.index);
-// app.get('/', routes.index);
+app.post('/ping', function(req, res){
+  res.end('hi: ' + JSON.stringify(req.body));
+});
+
 app.get('/', function(req, res){
-  // res.write('hello');
   routes.index(req, res, function(err, html) {
     res.end(html);
   });
-  // .end('hi' + html);
 });
 
 
