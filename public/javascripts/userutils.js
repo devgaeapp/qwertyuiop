@@ -4,8 +4,8 @@ function loadUserData(fbResponse) {
 	  console.log(JSON.stringify(response));
 	  $('#profilehome').html(response.name);
 	  $('#profilehomearrow').html('▼');
-
-	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>')
+	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
+	  $('#altlogin').remove();
 	});	
 }
 
@@ -92,7 +92,6 @@ function loginCallback(response) {
   if (response.status == 'connected') {
       console.log('connected, OK?')
       loadUserData(response);
-      $('#altlogin').remove();
   }
 
   console.log('response=' + JSON.stringify(response));
@@ -139,14 +138,41 @@ function showstatusui() {
 	$('#writediv').html('<div><input type="text" placeholder="type your one liner, then press ENTER" style="width: 466px;"></div><br />');
 }
 
+var menuVisible1 = false;
+var menuVisible2 = false;
+
+function logout() {
+	FB.logout();
+	location.reload();
+}
+
 function showhomemenu() {
 
 	var $homearrow = $('#profilehomearrow');
 	var right = $(document).width() - $homearrow.offset().left - $homearrow.outerWidth() - 1;
-	var top = $homearrow.offset().top + $homearrow.outerHeight();
+	var top = $homearrow.offset().top + $homearrow.outerHeight() + 2;
 
 	$homearrow.attr('class', 'menulink-sel');
 
-	$('#content').append('<div style="right: ' + right + 'px; top: ' + top + 'px;" class="dropdownmenu">' + 
-		'abc</div>');
+	$('#content').append('<div id="homemenu" style="right: ' + right + 'px; top: ' + top + 'px;" class="dropdownmenu">' + 
+		'<table width="100%">' + 
+			'<tr><td><div class="menuitem">Account Settings</div></td></tr>' + 
+			'<tr><td><div class="menuitem" onclick="logout()">Log out</div></td></tr>' + 
+		'</table>' +
+		'</div>');
+	menuVisible1 = true;
 }
+
+$(document).click(function(e) {
+	if (menuVisible2) {
+		// console.log("mouse clicked");
+		$('#homemenu').remove();
+		$('#profilehomearrow').attr('class', 'menulink');
+		menuVisible2 = false;
+	}
+
+	if (menuVisible1) {
+		menuVisible2 = true;
+		menuVisible1 = false;
+	}
+});
