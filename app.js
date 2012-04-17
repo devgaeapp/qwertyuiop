@@ -38,24 +38,16 @@ app.configure('production', function(){
 
 // Routes
 
-app.post('/ping', function(req, res){
+app.post('/sync', function(req, res){
 	// res.end('hi: ' + JSON.stringify(req.body));
     var token = req.body.accessToken;
-    pingBack(token, function (r) {
-	    res.end(r);
+    sync(token, function (err, r) {
+      if (err != null) {
+        res.end('error');
+      } else {
+	     res.end(r);
+      }
 	});
-
-    /*client.get(token, function (err, r) {
-	    if (err != null) {
-		
-	    }
-
-	    if (r == null) {
-		
-	    }
-
-        res.end(JSON.stringify(err) + '=' + JSON.stringify(r));
-	});*/
 });
 
 app.get('/', function(req, res){
@@ -95,19 +87,26 @@ function getUserFromFacebook(accessToken, cb) {
 	    if (!error && response.statusCode == 200) {
 		var resp = JSON.parse(body);
 		client.set(accessToken, resp.id, function (err, r) {
-		cb(null, resp.id);
+		    cb(null, resp.id);
 		    });
 	    } else {
-		cb(error, null);
+		    cb(error, null);
 	    }
 	});
 }
 
-function pingBack(accessToken, cb) {
-    getUser(accessToken, function(e, r) {
-	    if (e != null) cb('error');
-	    cb(r);
-	});
+function errorCheck(cb, f) {
+  return function (e, r) {
+    if (e != null) cb(e, null);
+    else f(r);  
+  }
+}
+
+function sync(accessToken, cb) {
+    getUser(accessToken, errorCheck(cb, function(r) {
+      console.log(r);
+      cb(null, r);
+    }));
 }
 
 
