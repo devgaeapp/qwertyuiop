@@ -17,10 +17,9 @@ function sync() {
 			console.log('sync not possible: ' + response);
 		} else {
 			var r = JSON.parse(response);
-			if (r.m > 0) {
-				$('#commentbubble').html(r.m.toString());
-				$('#commentbubble').css('visibility', 'visible');
-			}	
+			if (r.m > 0) $('#commentbubble').html(r.m.toString()).css('visibility', 'visible');
+			if (r.d > 0) $('#discussionbubble').html(r.d.toString()).css('visibility', 'visible');
+			if (r.f > 0) $('#peoplebubble').html(r.f.toString()).css('visibility', 'visible');
 		}
 
 		$('#result').html(response);
