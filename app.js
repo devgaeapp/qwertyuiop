@@ -66,13 +66,10 @@ function logError(e) {
 }
 
 function getUser(accessToken, cb) {
-    client.get("at_" + accessToken, errorCheck(cb, function(r) {
-      if (r == null) {
-        getUserFromFacebook(accessToken, cb);
-      } else {
-        console.log('loaded from redis');
-        cb(null, r);
-      } 
+    defHGet("at", accessToken, function (cbHit) {
+      getUserFromFacebook(accessToken, cbHit);
+    }, errorCheck(cb, function(r) {
+      cb(null, r);
     }));
 }
 
@@ -80,9 +77,9 @@ function getUserFromFacebook(accessToken, cb) {
     request('https://graph.facebook.com/me?access_token=' + accessToken, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 		    var resp = JSON.parse(body);
-		    client.set("at_" + accessToken, resp.id, function (err, r) {
-		      cb(null, resp.id);
-		      });
+		    defHSet("at", accessToken, resp.id, errorCheck(cb, function(r) {
+          cb(null, resp.id);
+        }));
 	    } else {
 		    cb(error, null);
 	    }
@@ -106,11 +103,13 @@ function sync(accessToken, cb) {
     }));
 }
 
+function defHSet(key, field, value, cb) {
+  client.set(key + '_' + field, value, cb);
+}
+
 function defHGet(key, field, cbMiss, cbHit) {
-    console.log('2');
-  client.get(key + '_' + field, errorCheck(cbHit, function(r) {
-	      console.log('r=' + r);
-    if (r == null) {
+    client.get(key + '_' + field, errorCheck(cbHit, function(r) {
+	  if (r == null) {
       cbMiss(cbHit);
     } else {
       cbHit(null, r);
@@ -119,7 +118,6 @@ function defHGet(key, field, cbMiss, cbHit) {
 }
 
 function getUserBlob(u, cb) {
-    console.log('1');
   defHGet("u", u, function(cbHit) {
     var blob = {
       m : 4,
@@ -127,7 +125,6 @@ function getUserBlob(u, cb) {
       f : 3
     };
 
-    console.log('hey');
     cbHit(null, blob);
 
   }, errorCheck(cb, function(r) {
