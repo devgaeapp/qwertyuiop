@@ -124,7 +124,7 @@ function getUserBlob(u, cb) {
       f : 3
     };
 
-    cbHit(blob);
+    cbHit(null, blob);
 
   }, errorCheck(cb, function(r) {
     cb(null, r);
