@@ -66,7 +66,7 @@ function logError(e) {
 }
 
 function getUser(accessToken, cb) {
-    client.hget("at", accessToken, errorCheck(cb, function(r) {
+    client.get("at_" + accessToken, errorCheck(cb, function(r) {
       if (r == null) {
         getUserFromFacebook(accessToken, cb);
       } else {
@@ -80,7 +80,7 @@ function getUserFromFacebook(accessToken, cb) {
     request('https://graph.facebook.com/me?access_token=' + accessToken, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 		    var resp = JSON.parse(body);
-		    client.set("at", accessToken, resp.id, function (err, r) {
+		    client.set("at_" + accessToken, resp.id, function (err, r) {
 		      cb(null, resp.id);
 		      });
 	    } else {
@@ -107,11 +107,11 @@ function sync(accessToken, cb) {
 }
 
 function defHGet(key, field, cbHit, cbMiss) {
-  client.hget(key, field, errorCheck(function(r) {
+  client.get(key + '_' + field, errorCheck(cbHit, function(r) {
     if (r == null) {
       cbMiss(cbHit);
     } else {
-      cbHit(r);
+      cbHit(null, r);
     }
   }));
 }
@@ -126,9 +126,9 @@ function getUserBlob(u, cb) {
 
     cbHit(blob);
 
-  }, function(r) {
+  }, errorCheck(cb, function(r) {
     cb(null, r);
-  });  
+  }));  
 }
 
 
