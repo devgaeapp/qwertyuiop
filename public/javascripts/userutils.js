@@ -3,7 +3,7 @@ var userId = null;
 var userName = null;
 var userDataLoaded = false;
 
-function pingBack() {
+function sync() {
 	var data = {
 		accessToken : accessToken,
 		userId : userId
@@ -12,7 +12,7 @@ function pingBack() {
 	console.log('accessToken: ' + accessToken);
 	console.log('POSTDATA: ' + JSON.stringify(data));
 
-	$.post('/ping', data, function(response) {
+	$.post('/sync', data, function(response) {
 		$('#result').html(response);
 	});
 }
@@ -20,7 +20,7 @@ function pingBack() {
 function loadUserData(fbResponse) {
 	if (userDataLoaded) return;
 	console.log('fbResponse: ' + JSON.stringify(fbResponse));
-	accessToken = response.authResponse.accessToken;
+	accessToken = fbResponse.authResponse.accessToken;
 
 	FB.api('/me', function(response) {
 	  console.log(JSON.stringify(response));
@@ -33,7 +33,7 @@ function loadUserData(fbResponse) {
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
 
-	  pingBack();
+	  sync();
 
 	  userDataLoaded = true;
 	});	
