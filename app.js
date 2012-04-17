@@ -106,8 +106,10 @@ function sync(accessToken, cb) {
     }));
 }
 
-function defHGet(key, field, cbHit, cbMiss) {
+function defHGet(key, field, cbMiss, cbHit) {
+    console.log('2');
   client.get(key + '_' + field, errorCheck(cbHit, function(r) {
+	      console.log('r=' + r);
     if (r == null) {
       cbMiss(cbHit);
     } else {
@@ -117,6 +119,7 @@ function defHGet(key, field, cbHit, cbMiss) {
 }
 
 function getUserBlob(u, cb) {
+    console.log('1');
   defHGet("u", u, function(cbHit) {
     var blob = {
       m : 4,
@@ -124,10 +127,11 @@ function getUserBlob(u, cb) {
       f : 3
     };
 
+    console.log('hey');
     cbHit(null, blob);
 
   }, errorCheck(cb, function(r) {
-    cb(null, r);
+	  cb(null, JSON.stringify(r));
   }));  
 }
 
