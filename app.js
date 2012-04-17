@@ -63,7 +63,7 @@ app.post('/postdata', function(req, res){
   
     var token = req.body.accessToken;
     var statusText = req.body.statusText;
-    getUser(accessToken, errorCheckRespond(res, function(userId) {
+    getUser(token, errorCheckRespond(res, function(userId) {
       saveStatus(userId, statusText, errorCheckRespond(res, function(statusId) {
         res.end(statusId);
       }));
@@ -164,7 +164,7 @@ function getUserBlob(u, cb) {
 
 function addNode(type, name, desc, fbId, cb) {
   var row = {
-    __name__ : "Node",
+    __table__ : "Node",
     Type : type,
     Name : name,
     Desc : desc,
