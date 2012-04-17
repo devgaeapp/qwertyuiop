@@ -16,4 +16,11 @@ db.open("storage.db", function(err) {
 	tabledef.FBId = 'int';
 
 	db.create(tabledef, function (err){ console.log('created Node'); });
+
+	var item = {};
+	item.__table__ = 'Node';
+	item.Name = 'Hi';
+	item.Desc = 'OK';
+
+	db.addRow(item, function (err) { console.log('added');});
 });
