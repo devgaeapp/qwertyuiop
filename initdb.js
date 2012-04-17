@@ -3,9 +3,9 @@ var sys    = require('sys'),
     sqlitedb = require('./sqlitedb');
 
 
-var db = new sqlitedb();
+var db = new sqlitedb.Database();
 
-db.open("storage.db", errCheck(function() {
+db.open("storage.db", function(err) {
 
 	var tabledef = {};
 	tabledef.__name__ = 'Node';
@@ -15,5 +15,5 @@ db.open("storage.db", errCheck(function() {
 	tabledef.Created = 'datetime';
 	tabledef.FBId = 'int';
 
-	db.create(tabledef, errCheck(function (){ console.log('created Node'); }));
-}));
+	db.create(tabledef, function (err){ console.log('created Node'); });
+});
