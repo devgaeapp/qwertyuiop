@@ -41,6 +41,7 @@ function loadUserData(fbResponse) {
 	  $('#profilehomearrow').html('▼');
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
+	  $('writepanel').css('visibility', 'visible');
 
 	  sync();
 
