@@ -17,7 +17,10 @@ function sync() {
 			console.log('sync not possible: ' + response);
 		} else {
 			var r = JSON.parse(response);
-			
+			if (r.m > 0) {
+				$('#commentbubble').html(r.m.toString());
+				$('#commentbubble').css('visibility', 'visible');
+			}	
 		}
 
 		$('#result').html(response);
