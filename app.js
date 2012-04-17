@@ -66,29 +66,23 @@ function logError(e) {
 }
 
 function getUser(accessToken, cb) {
-    client.get(accessToken, function (e, r) {
-	    if (e != null) {
-		logError(e);
-		getUserFromFacebook(accessToken, cb);
-
-	    } else {
-		if (r == null) {
-		    getUserFromFacebook(accessToken, cb);
-		} else {
-		    console.log('loaded from redis');
-		    cb(null, r);
-		}
-	    }	    
-	});
+    client.hget("at", accessToken, errorCheck(cb, function(r) {
+      if (r == null) {
+        getUserFromFacebook(accessToken, cb);
+      } else {
+        console.log('loaded from redis');
+        cb(null, r);
+      } 
+    }));
 }
 
 function getUserFromFacebook(accessToken, cb) {
     request('https://graph.facebook.com/me?access_token=' + accessToken, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
-		var resp = JSON.parse(body);
-		client.set(accessToken, resp.id, function (err, r) {
-		    cb(null, resp.id);
-		    });
+		    var resp = JSON.parse(body);
+		    client.set("at", accessToken, resp.id, function (err, r) {
+		      cb(null, resp.id);
+		      });
 	    } else {
 		    cb(error, null);
 	    }
@@ -97,16 +91,44 @@ function getUserFromFacebook(accessToken, cb) {
 
 function errorCheck(cb, f) {
   return function (e, r) {
-    if (e != null) cb(e, null);
+    if (e != null) {
+      logError(e);
+      cb(e, null);
+    }
     else f(r);  
-  }
+  };
 }
 
 function sync(accessToken, cb) {
     getUser(accessToken, errorCheck(cb, function(r) {
       console.log(r);
-      cb(null, r);
+      getUserBlob(r, cb);
     }));
+}
+
+function defHGet(key, field, cbHit, cbMiss) {
+  client.hget(key, field, errorCheck(function(r) {
+    if (r == null) {
+      cbMiss(cbHit);
+    } else {
+      cbHit(r);
+    }
+  }));
+}
+
+function getUserBlob(u, cb) {
+  defHGet("u", u, function(cbHit) {
+    var blob = {
+      m : 4,
+      d : 2,
+      f : 3
+    };
+
+    cbHit(blob);
+
+  }, function(r) {
+    cb(null, r);
+  });  
 }
 
 
