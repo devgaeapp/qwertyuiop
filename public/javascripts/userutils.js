@@ -13,6 +13,13 @@ function sync() {
 	console.log('POSTDATA: ' + JSON.stringify(data));
 
 	$.post('/sync', data, function(response) {
+		if (response == 'error') {
+			console.log('sync not possible: ' + response);
+		} else {
+			var r = JSON.parse(response);
+			
+		}
+
 		$('#result').html(response);
 	});
 }
