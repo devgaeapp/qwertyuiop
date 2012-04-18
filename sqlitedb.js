@@ -2,7 +2,7 @@ var sys    = require('sys'),
     util = require('util'),
     sqlite = require('./lib/sqlite/sqlite');
 
-var sqlitedb = exports.sqlitedb = function () {
+var sqlitedb = exports.Database = function () {
     var self = this;
 
     console.log('hello');
