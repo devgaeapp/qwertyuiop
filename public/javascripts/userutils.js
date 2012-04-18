@@ -17,7 +17,7 @@ function sync() {
 			console.log('sync not possible: ' + response);
 		} else {
 			var r = JSON.parse(response);
-			if (r.m > 0) $('#commentbubble').html(r.m.toString()).css('visibility', 'visible');
+			if (r.m > 0) $('#commenticon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
 			if (r.d > 0) $('#discussionbubble').html(r.d.toString()).css('visibility', 'visible');
 			if (r.f > 0) $('#peoplebubble').html(r.f.toString()).css('visibility', 'visible');
 		}
@@ -41,7 +41,7 @@ function loadUserData(fbResponse) {
 	  $('#profilehomearrow').html('▼');
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
-	  $('writepanel').css('visibility', 'visible');
+	  $('writeroot').html('<div style="background-color: #F8F8F8; visibility: hidden;" id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">Write blog</span><span></span><span onclick="showstatusui()" class="hover-text">Add a status line</span></div><br/><div id="writediv"></div></div>');
 
 	  sync();
 
