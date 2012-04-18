@@ -90,6 +90,10 @@ app.post('/postdata', function(req, res){
 app.get('/', function(req, res){  
   getPageCached(res, 'page', 'main', 10, function(cb) {
     db.execute('select * from Node', function(err, rows) {
+	    for(i in rows) {
+		var row = rows[i];
+		console.log(row.Name + ': len=' + row.Name.length);
+	    }
       routes.index(req, res, rows, cb);
     });
   });

@@ -38,10 +38,10 @@ div(id="wrapper")
 						div
 							div(id="writeroot")
 						div
-							- for (var node in nodes)
-								div node.Name
-								div node.Desc
-								div node.Temperature
+							- for node in nodes
+								div #{node.Name}
+								div= node.Desc
+								div= node.Temperature
 						
 					td(width="288px", valign="top")
 
