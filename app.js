@@ -88,12 +88,12 @@ app.post('/postdata', function(req, res){
 });
 
 app.get('/', function(req, res){
-  defHget('page', 'main', function(cbHit) {
+  defHGet('page', 'main', function(cbHit) {
     console.log('main page cache miss');
     routes.index(req, res, 'amarblog', function(err, html) {
       if (err != null) cbHit(err, null);
       else {
-        defHSet('page', 'main', html, 10 * 60, function(err, r) {
+        defHSet('page', 'main', html, 10, function(err, r) {
           cbHit(err, html);  
         });
       }
