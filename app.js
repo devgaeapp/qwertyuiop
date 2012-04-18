@@ -17,6 +17,7 @@ var request = require('request');
 var sys = require('sys'),
     util = require('util');
 
+var fs = require('fs');
 
 var db = new sqlitedb.Database();
 db.open("storage.db", function(err) {
@@ -59,6 +60,9 @@ app.post('/sync', function(req, res){
 	});
 });
 
+function encode_utf8( s ) { return unescape( encodeURIComponent( s ) ); }
+function decode_utf8( s ) { return decodeURIComponent( escape( s ) ); }
+
 app.post('/postdata', function(req, res){
   
     var token = req.body.accessToken;
@@ -73,6 +77,10 @@ app.post('/postdata', function(req, res){
 
       if (type == 'status') {
         nodeType = 1;
+	var statusText = encode_utf8(req.body.statusText);
+	console.log(req.body.statusText);
+	console.log(statusText);
+	var statusText2 = decode_utf8(statusText);
         name = req.body.statusText;
         desc = '';
       } else if (type == 'blog') {
@@ -82,21 +90,45 @@ app.post('/postdata', function(req, res){
       }
 
       saveNewNode(nodeType, name, desc, fbId, errorCheckRespond(res, function(resBlob) {
-        res.end(resBlob);
+		  // res.end(statusText2);
+		  db.execute('select * from Node', function(err, rows) {
+			  var text = 'data=';
+			  for(i in rows) {
+			      var row = rows[i];
+			      text += row.Name;
+			      console.log(row.Name + ': len=' + row.Name.length);
+			  }
+			  res.end(text);
+		      });
+
       }));
     }));
 });
 
 app.get('/', function(req, res){  
-  getPageCached(res, 'page', 'main', 10, function(cb) {
+	/*	db.execute('select * from Node', function(err, rows) {
+
+	var text = 'data=';
+	for(i in rows) {
+	    var row = rows[i];
+	    text += row.Name;
+	    console.log(row.Name + ': len=' + row.Name.length);
+	}
+	res.end(text);
+	});*/
+
+	getPageCached(res, 'page', 'main', 10, function(cb) {
     db.execute('select * from Node', function(err, rows) {
+	    var text = 'data=';
 	    for(i in rows) {
 		var row = rows[i];
+		text += row.Name;
 		console.log(row.Name + ': len=' + row.Name.length);
 	    }
-      routes.index(req, res, rows, cb);
+	    // res.end(decode_utf8(text));
+	    routes.index(req, res, rows, cb);
     });
-  });
+    });
 });
 
 
@@ -230,8 +262,18 @@ function getPageCached(res, key, value, expiry, cbPageCreate) {
   }, function (err, html) {
       console.log(key + '_' + value + ' cache hit');
       if (err != null) {
+	  console.log(err);
         res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
       } else {
+	  // html = decode_utf8(html);
+	  fs.writeFile("/tmp/test", html, function(err) {
+		  if(err) {
+		    console.log(err);
+		  } else {
+		      console.log("The file was saved!");
+		  }
+	      }); 
+
       res.end(html);  
     }
   });

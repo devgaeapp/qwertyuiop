@@ -15,5 +15,5 @@ exports.index = function(req, res, nodes, cb){
   console.log('encoding');
   var eNodes = strencode(nodes);
   console.log(eNodes);
-  res.render('index', { title: 'Amarblog2', nodes : JSON.parse(eNodes) }, cb);
+  res.render('index', { title: 'Amarblog2', nodes : nodes }, cb);
 };
