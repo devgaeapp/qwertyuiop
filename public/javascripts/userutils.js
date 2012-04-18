@@ -18,8 +18,8 @@ function sync() {
 		} else {
 			var r = JSON.parse(response);
 			if (r.m > 0) $('#commenticon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
-			if (r.d > 0) $('#discussionicon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
-			if (r.f > 0) $('#peopleicon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
+			if (r.d > 0) $('#discussionicon').append('<span class="menu-bubble">' + r.d.toString() + '</span>');
+			if (r.f > 0) $('#peopleicon').append('<span class="menu-bubble">' + r.f.toString() + '</span>');
 		}
 
 		$('#result').html(response);
@@ -41,7 +41,7 @@ function loadUserData(fbResponse) {
 	  $('#profilehomearrow').html('▼');
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
-	  $('#writeroot').html('<div id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">Write blog</span><span></span><span onclick="showstatusui()" class="hover-text">Add a status line</span></div><br/><div id="writediv"></div></div>');
+	  $('#writeroot').html('<div id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">Write blog</span><span></span><span onclick="showstatusui()" class="hover-text" id="writestatusdiv">Add a status line</span></div><br/><div id="writediv"></div></div>');
 
 	  sync();
 
@@ -171,10 +171,14 @@ function showblogui() {
 	makePhoneticEditor('post_title');
 	makePhoneticEditor('post_content');
 	$('#writeblogdiv').attr('class', 'hover-text-sel');
+	$('#writestatusdiv').attr('class', 'hover-text');
 }
 
 function showstatusui() {
-	$('#writediv').html('<div><input type="text" placeholder="type your one liner, then press ENTER" style="width: 466px;"></div><br />');
+	$('#writediv').html('<div><input type="text" id="status_input" placeholder="type your one liner, then press ENTER" style="width: 466px;"></div><br />');
+	$('#writebstatusdiv').attr('class', 'hover-text-sel');
+	$('#writeblogdiv').attr('class', 'hover-text');
+	makePhoneticEditor('status_input');
 }
 
 var menuVisible1 = false;
