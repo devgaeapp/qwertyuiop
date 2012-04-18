@@ -180,6 +180,16 @@ function postStatus()
 	$statusinput.attr('disabled', 'disabled');
 	var status = $statusinput.value();
 	alert(status);
+
+	var data = {
+		accessToken : accessToken,
+		userId : userId,
+		statustext : status
+	};
+
+	$.post('/postdata', data, function(response) {
+		console.log(response);
+	});
 }
 
 function showstatusui() {
@@ -189,7 +199,7 @@ function showstatusui() {
 	makePhoneticEditor('status_input');
 
 	var $statusinput = $('#status_input');
-	$statusinput`.keypress(function(e) {
+	$statusinput.keypress(function(e) {
 		 var code= (e.keyCode ? e.keyCode : e.which);
          if (code == 13) postStatus();
          e.preventDefault();
