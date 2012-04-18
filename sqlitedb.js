@@ -87,13 +87,18 @@ sqlitedb.prototype.addRow = function (row, cb) {
 
             if (first) first = false;
             else {
-		cols += ', ';
-		values += ', ';
-	    }
+		      cols += ', ';
+		      values += ', ';
+	        }
 
             var val = row[prop];
             cols += prop;
-	    values += "'" + val + "'";
+            if (typeof(val) == 'string') {
+                values += "'" + val + "'";    
+            } else {
+                values += val.toString();
+            }
+	        
         }
     }
 
