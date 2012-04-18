@@ -178,7 +178,7 @@ function postStatus()
 {
 	var $statusinput = $('#status_input');
 	$statusinput.attr('disabled', 'disabled');
-	var status = $statusinput.value();
+	var status = $statusinput.val();
 	alert(status);
 
 	var data = {
@@ -200,9 +200,11 @@ function showstatusui() {
 
 	var $statusinput = $('#status_input');
 	$statusinput.keypress(function(e) {
-		 var code= (e.keyCode ? e.keyCode : e.which);
-         if (code == 13) postStatus();
-         e.preventDefault();
+		 var code = (e.keyCode ? e.keyCode : e.which);
+         if (code == 13) {
+         	postStatus();
+         	e.preventDefault();
+         }
 	});
 }
 
