@@ -179,12 +179,11 @@ function postStatus()
 	var $statusinput = $('#status_input');
 	$statusinput.attr('disabled', 'disabled');
 	var status = $statusinput.val();
-	alert(status);
-
+	
 	var data = {
 		accessToken : accessToken,
 		userId : userId,
-		statustext : status
+		statusText : status
 	};
 
 	$.post('/postdata', data, function(response) {

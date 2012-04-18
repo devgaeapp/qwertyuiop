@@ -10,9 +10,13 @@ var express = require('express')
 var redis = require("redis"),
     client = redis.createClient();
 
-var sqlite = require('./lib/sqlite/sqlite');
+var sqlite = require('./sqlitedb');
 var http = require('http');
 var request = require('request');
+
+var sys = require('sys'),
+    util = require('util');
+
 
 var app = module.exports = express.createServer();
 
@@ -48,6 +52,17 @@ app.post('/sync', function(req, res){
 	     res.end(r);
       }
 	});
+});
+
+app.post('/postdata', function(req, res){
+  
+    var token = req.body.accessToken;
+    var statusText = req.body.statusText;
+    getUser(accessToken, errorCheckRespond(res, function(userId) {
+      saveStatus(userId, statusText, errorCheckRespond(res, function(statusId) {
+        res.end(statusId);
+      }));
+    }));
 });
 
 app.get('/', function(req, res){
@@ -96,6 +111,16 @@ function errorCheck(cb, f) {
   };
 }
 
+function errorCheckRespond(res, f) {
+  return function (e, r) {
+    if (e != null) {
+      logError(e);
+      res.end('error');
+    }
+    else f(r);  
+  };  
+}
+
 function sync(accessToken, cb) {
     getUser(accessToken, errorCheck(cb, function(r) {
       console.log(r);
@@ -132,4 +157,6 @@ function getUserBlob(u, cb) {
   }));  
 }
 
-
+function saveStatus(userId, statusText, cb) {
+  
+}
