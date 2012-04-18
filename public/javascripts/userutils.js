@@ -18,8 +18,8 @@ function sync() {
 		} else {
 			var r = JSON.parse(response);
 			if (r.m > 0) $('#commenticon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
-			if (r.d > 0) $('#discussionbubble').html(r.d.toString()).css('visibility', 'visible');
-			if (r.f > 0) $('#peoplebubble').html(r.f.toString()).css('visibility', 'visible');
+			if (r.d > 0) $('#discussionicon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
+			if (r.f > 0) $('#peopleicon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
 		}
 
 		$('#result').html(response);
