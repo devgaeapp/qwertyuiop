@@ -14,7 +14,7 @@ div(id="wrapper")
 							div(class="boldwhite", id="titletext")
 					td(width="140px")
 						div(class="rightalignblock", style="max-width:120px;")
-							span(class="menubaricon")
+							span(class="menubaricon", id="commenticon")
 								img(src="http://www.tooctac.com/p/b91280", class="iconsmall")
 							span(class="menubaricon")
 								img(src="http://www.tooctac.com/p/58b4a0", class="iconsmall")
@@ -35,15 +35,7 @@ div(id="wrapper")
 				tr
 					td(width="480px", valign="top")
 						div(class="content-column")
-							div(class="content-segment", style="background-color: #F8F8F8; visibility: hidden;", id="writepanel")
-								div
-									span(class="hover-text", onclick="showblogui()", id="writeblogdiv") Write blog
-									span
-									span(class="hover-text", onclick="showstatusui()") Add a status line
-								br
-								div(id="writediv")
-
-
+							div(id="writeroot")
 							div(class="content-segment")
 								div(id="result")
 

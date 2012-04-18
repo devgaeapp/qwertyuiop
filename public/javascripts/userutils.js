@@ -41,7 +41,7 @@ function loadUserData(fbResponse) {
 	  $('#profilehomearrow').html('▼');
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
-	  $('writeroot').html('<div style="background-color: #F8F8F8; visibility: hidden;" id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">Write blog</span><span></span><span onclick="showstatusui()" class="hover-text">Add a status line</span></div><br/><div id="writediv"></div></div>');
+	  $('writeroot').html('<div id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">Write blog</span><span></span><span onclick="showstatusui()" class="hover-text">Add a status line</span></div><br/><div id="writediv"></div></div>');
 
 	  sync();
 
