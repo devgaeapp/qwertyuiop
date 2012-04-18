@@ -125,7 +125,7 @@ app.get('/', function(req, res){
 		text += row.Name;
 		console.log(row.Name + ': len=' + row.Name.length);
 	    }
-	    // res.end(decode_utf8(text));
+	    // res.end(text);
 	    routes.index(req, res, rows, cb);
     });
     });
@@ -266,14 +266,15 @@ function getPageCached(res, key, value, expiry, cbPageCreate) {
         res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
       } else {
 	  // html = decode_utf8(html);
-	  fs.writeFile("/tmp/test", html, function(err) {
+	  /*	  fs.writeFile("/tmp/test", html, function(err) {
 		  if(err) {
 		    console.log(err);
 		  } else {
 		      console.log("The file was saved!");
 		  }
-	      }); 
+		  }); */
 
+	  res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.end(html);  
     }
   });
