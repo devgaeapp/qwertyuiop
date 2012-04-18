@@ -76,11 +76,12 @@ app.post('/postdata', function(req, res){
         name = req.body.statusText;
         desc = '';
       } else if (type == 'blog') {
+	  nodeType = 0;
         name = req.body.title;
         desc = req.body.content;
       }
 
-      saveNewNode(type, name, desc, fbId, errorCheckRespond(res, function(resBlob) {
+      saveNewNode(nodeType, name, desc, fbId, errorCheckRespond(res, function(resBlob) {
         res.end(resBlob);
       }));
     }));

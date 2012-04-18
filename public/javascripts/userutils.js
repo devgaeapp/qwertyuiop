@@ -183,12 +183,12 @@ function saveBlog() {
 	var $post_content = $('#post_content');
 
 	var data = {
-		accessToken = accessToken,
-		userId = userId,
-		type = 'blog',
-		title = $post_title.val(),
-		content = $post_content.val()
-	}
+	    accessToken : accessToken,
+	    userId : userId,
+	    type : 'blog',
+	    title : $post_title.val(),
+	    content : $post_content.val()
+	};
 
 	$post_title.attr('disabled', 'disabled');
 	$post_content.attr('disabled', 'disabled');
@@ -208,7 +208,7 @@ function postStatus()
 	
 	var data = {
 		accessToken : accessToken,
-		type = 'status',
+		type : 'status',
 		userId : userId,
 		statusText : status
 	};
