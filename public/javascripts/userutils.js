@@ -174,14 +174,24 @@ function showblogui() {
 	$('#writestatusdiv').attr('class', 'hover-text');
 }
 
+function postStatus()
+{
+	var $statusinput = $('#status_input');
+	$statusinput.attr('disabled', 'disabled');
+	var status = $statusinput.value();
+	alert(status);
+}
+
 function showstatusui() {
 	$('#writediv').html('<div><input type="text" id="status_input" placeholder="type your one liner, then press ENTER" style="width: 466px;"></div><br />');
 	$('#writestatusdiv').attr('class', 'hover-text-sel');
 	$('#writeblogdiv').attr('class', 'hover-text');
 	makePhoneticEditor('status_input');
-	$('#status_input').keypress(function(e) {
+
+	var $statusinput = $('#status_input');
+	$statusinput`.keypress(function(e) {
 		 var code= (e.keyCode ? e.keyCode : e.which);
-         if (code == 13) alert('Enter key was pressed.');
+         if (code == 13) postStatus();
          e.preventDefault();
 	});
 }
