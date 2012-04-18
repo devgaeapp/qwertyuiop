@@ -12,12 +12,15 @@ function convertToBanglaNumberStr(nStr) {
 
 	for (i = 0; i < len; i++) {
 		var c = nStr[i];
-		if (isNan(c)) {
+		console.log(c);
+		if (isNaN(c)) {
 			banglaStr += c;
 		} else {
 			banglaStr += banglaDigits[parseInt(c)];
 		}
 	}
+
+	return banglaStr;
 }
 
 function convertToBanglaNumber(n) {
