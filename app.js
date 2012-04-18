@@ -115,7 +115,7 @@ function getUserFromFacebook(accessToken, cb) {
 	    if (!error && response.statusCode == 200) {
 		    var resp = JSON.parse(body);
 		    defHSet("at", accessToken, resp.id, errorCheck(cb, function(r) {
-          cb(null, parseInt(resp.id);
+				cb(null, parseInt(resp.id));
         }));
 	    } else {
 		    cb(error, null);
