@@ -96,11 +96,13 @@ app.get('/', function(req, res){
         var row = rows[r];
         var node = {
           Title: row.Name,
-          Summary: row.Description,
-          UserFBId: row.FBId
+          Summary: row.Desc,
+          UserFBId: row.FBId,
+	  AuthorName: 'Author',
+	  PostTime: row.Created
         }
 
-        nodes.append(node);
+        nodes.push(node);
       }
 	    routes.index(req, res, nodes, cb);
     });
