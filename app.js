@@ -76,7 +76,7 @@ app.post('/postdata', function(req, res){
         name = req.body.statusText;
         desc = '';
       } else if (type == 'blog') {
-	  nodeType = 0;
+        nodeType = 0;
         name = req.body.title;
         desc = req.body.content;
       }
@@ -88,7 +88,7 @@ app.post('/postdata', function(req, res){
 });
 
 app.get('/', function(req, res){
-  routes.index(req, res, function(err, html) {
+  routes.index(req, res, 'amarblog', function(err, html) {
     res.end(html);
   });
 });
