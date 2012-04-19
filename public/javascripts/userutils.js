@@ -172,9 +172,9 @@ function showblogui() {
 	makePhoneticEditor('post_content');
 	$('#writeblogdiv').attr('class', 'hover-text-sel');
 	$('#writestatusdiv').attr('class', 'hover-text');
-	$('#saveblog').click() {
+	$('#saveblog').click(function() {
 		saveBlog();
-	}
+	});
 }
 
 function saveBlog() {
