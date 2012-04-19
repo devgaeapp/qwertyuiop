@@ -158,7 +158,7 @@ function getUserFromDB(userId, cb) {
 function saveUserIntoDB(fbUserBlob, cb) {
     console.log('saveuserfromdb');
 
-  addDBNode(2, fbUserBlob.name, fbUserBlob.link, fbUserBlob.id, function(err) {
+    addDBNode(2, fbUserBlob.name, fbUserBlob.link, fbUserBlob.id, '',  function(err) {
     cb(err, fbUserBlob.id);
   });  
 }
@@ -171,7 +171,7 @@ function getUserInfo(userId, cb) {
     }, errorCheck(cb, function(u) {
       if (u != null) {
         user = {
-          Id = userId,
+	    Id: userId,
           Name: u.Name
         };
 
@@ -217,6 +217,7 @@ function getUserFromFacebook(accessToken, cb) {
 function errorCheck(cb, f) {
   return function (e, r) {
     if (e != null) {
+	throw err;
       logError(e);
       cb(e, null);
     }
@@ -295,13 +296,7 @@ function addDBNode(type, name, desc, fbId, authorName, cb) {
 
   db.addRow(row, errorCheck(cb, function(r) {
     cb(null, fbId.toString() + "_" + time);
-  });
-}
-
-function saveNewNode(type, name, desc, fbId, authorName, cb) {
-  addDBNode(type, name, desc, fbId, authorName, errorCheck(cb, function(r) {
-
-  }));
+	  }));
 }
 
 function savePost(type, title, content, fbId, cb) {
@@ -313,6 +308,11 @@ function savePost(type, title, content, fbId, cb) {
       createNode2 = true;  
     } 
     else summary = content;  
+
+    if (u.Name == null) {
+	cb('Must have author name, bug somewhere!', null);
+	return;
+    }
 
     addDBNode(type, title, summary, fbId, u.Name, errorCheck(cb, function(id) {
       if (createNode2) {
