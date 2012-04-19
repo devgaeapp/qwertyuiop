@@ -39,8 +39,10 @@ div(id="wrapper")
 							div(id="writeroot")
 						div
 							- for node in nodes
-								div(class="posttitle") #{node.Title}
-								div(class="postsummary") #{node.Summary}
+								div(class="posttitle") #
+								a #{node.Title}
+								div(class="postsu
+								#{node.Summary}
 								div= node.Temperature
 						
 					td(width="288px", valign="top")
