@@ -167,11 +167,37 @@ FB.Event.subscribe('auth.authResponseChange', function(response) {
 
 
 function showblogui() {
-	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton">Post</a></div><br />');
+	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton" id="saveblog">Post</a></div><br />');
 	makePhoneticEditor('post_title');
 	makePhoneticEditor('post_content');
 	$('#writeblogdiv').attr('class', 'hover-text-sel');
 	$('#writestatusdiv').attr('class', 'hover-text');
+	$('#saveblog').click() {
+		saveBlog();
+	}
+}
+
+function saveBlog() {
+
+	var $post_title = $('#post_title');
+	var $post_content = $('#post_content');
+
+	var data = {
+		accessToken = accessToken,
+		userId = userId,
+		type = 'blog',
+		title = $post_title.val(),
+		content = $post_content.val()
+	}
+
+	$post_title.attr('disabled', 'disabled');
+	$post_content.attr('disabled', 'disabled');
+
+	$.post('/postdata', data, function(response) {
+		console.log(response);
+		$post_title.removeAttr('disabled');
+		$post_content.removeAttr('disabled');
+	});
 }
 
 function postStatus()
@@ -182,12 +208,14 @@ function postStatus()
 	
 	var data = {
 		accessToken : accessToken,
+		type = 'status',
 		userId : userId,
 		statusText : status
 	};
 
 	$.post('/postdata', data, function(response) {
 		console.log(response);
+		$statusinput.removeAttr('disabled');
 	});
 }
 

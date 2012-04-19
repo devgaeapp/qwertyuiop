@@ -62,10 +62,26 @@ app.post('/sync', function(req, res){
 app.post('/postdata', function(req, res){
   
     var token = req.body.accessToken;
-    var statusText = req.body.statusText;
+    
     getUser(token, errorCheckRespond(res, function(userId) {
-      saveStatus(userId, statusText, errorCheckRespond(res, function(statusId) {
-        res.end(statusId);
+      var nodeType = 0;
+      var name = '';
+      var desc = '';
+      var fbId = userId;
+
+      var type = req.body.type;
+
+      if (type == 'status') {
+        nodeType = 1;
+        name = req.body.statusText;
+        desc = '';
+      } else if (type == 'blog') {
+        name = req.body.title;
+        desc = req.body.content;
+      }
+
+      saveNewNode(type, name, desc, fbId, errorCheckRespond(res, function(resBlob) {
+        res.end(resBlob);
       }));
     }));
 });
@@ -162,7 +178,7 @@ function getUserBlob(u, cb) {
   }));  
 }
 
-function addNode(type, name, desc, fbId, cb) {
+function addDBNode(type, name, desc, fbId, cb) {
   var row = {
     __table__ : "Node",
     Type : type,
@@ -175,9 +191,9 @@ function addNode(type, name, desc, fbId, cb) {
   db.addRow(row, cb);
 }
 
-function saveStatus(userId, statusText, cb) {
-  addNode(1, statusText, '', parseInt(userId), function(err) {
+function saveNewNode(type, name, desc, fbId, cb) {
+  addDBNode(type, name, desc, fbId, function(err) {
     console.log('status saved.');
     cb(err, 'saved');
-  })
+  });
 }
