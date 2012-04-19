@@ -206,7 +206,7 @@ function getUserFromFacebook(accessToken, cb) {
 function errorCheck(cb, f) {
   return function (e, r) {
     if (e != null) {
-	throw err;
+	throw e;
       logError(e);
       cb(e, null);
     }
