@@ -91,16 +91,6 @@ app.post('/postdata', function(req, res){
 app.get('/', function(req, res){  
 	getPageCached(res, 'page', 'main', 10, function(cb) {
     db.execute('select * from Node', function(err, rows) {
-	    var text = 'data=';
-	    for(i in rows) {
-		    var row = rows[i];
-		    text += row.Created.toString() + ',';
-	    }
-
-      console.log(text);
-      var n = parseInt('100000053599108');
-      console.log("n=" + n);
-
 	    routes.index(req, res, rows, cb);
     });
     });
@@ -124,20 +114,24 @@ function getUser(accessToken, cb) {
 }
 
 function getUserFromDB(userId, cb) {
-  db.execute('select * from Node where type = 2 and FBId = ' + fbUserBlob.id, errorCheck(cb, rows) {
+    console.log('getuserfromdb');
+    db.execute('select * from Node where type = 2 and FBId = ' + userId, errorCheck(cb, function (rows) {
     if (rows.length <= 0) cb (null, null);
     else {
+     
+      var row = rows[0];
       u = {
-        var row = rows[0];
-        Name = row.Name;
+	  Name: row.Name
       }
 
       cb(null, u);
     }  
-  });
+	    }));
 }
 
 function saveUserIntoDB(fbUserBlob, cb) {
+    console.log('saveuserfromdb');
+
   addDBNode(2, fbUserBlob.name, fbUserBlob.link, fbUserBlob.id, function(err) {
     cb(err, fbUserBlob.id);
   });  
@@ -152,10 +146,11 @@ function getUserFromFacebook(accessToken, cb) {
             var save = false;
             if (u == null) {
               u = {
-                Name = resp.name;
+		  Name: resp.name
               };
 
               save = true;
+	      console.log('user not found in db');
             }
 
             defHSet("u", resp.Id, u, 30 * 60, errorCheck(cb, function(r) {  
@@ -196,7 +191,6 @@ function errorCheckRespond(res, f) {
 
 function sync(accessToken, cb) {
     getUser(accessToken, errorCheck(cb, function(r) {
-      console.log(r);
       getUserBlob(r, cb);
     }));
 }
