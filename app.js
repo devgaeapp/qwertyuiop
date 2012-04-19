@@ -10,13 +10,18 @@ var express = require('express')
 var redis = require("redis"),
     client = redis.createClient();
 
-var sqlite = require('./sqlitedb');
+var sqlitedb = require('./sqlitedb');
 var http = require('http');
 var request = require('request');
 
 var sys = require('sys'),
     util = require('util');
 
+
+var db = new sqlitedb.Database();
+db.open("storage.db", function(err) {
+    if (err) console.log(err);
+  });
 
 var app = module.exports = express.createServer();
 
@@ -157,6 +162,22 @@ function getUserBlob(u, cb) {
   }));  
 }
 
+function addNode(type, name, desc, fbId, cb) {
+  var row = {
+    __name__ : "Node",
+    Type : type,
+    Name : name,
+    Desc : desc,
+    Created : new Date().getTime(),
+    FBId : fbId
+  }
+
+  db.addRow(row, cb);
+}
+
 function saveStatus(userId, statusText, cb) {
-  
+  addNode(1, statusText, '', parseInt(userId), function(err) {
+    console.log('status saved.');
+    cb(err, 'saved');
+  })
 }
