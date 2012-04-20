@@ -186,7 +186,10 @@ function addDBNode(type, name, desc, fbId, cb) {
     Name : name,
     Desc : desc,
     Created : new Date().getTime(),
-    FBId : fbId
+    FBId : fbId,
+    Temperature : new Date().getTime(),
+    ChildCount : 0,
+    UniqueVisitCount : 0 
   }
 
   db.addRow(row, cb);

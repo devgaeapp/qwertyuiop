@@ -14,6 +14,9 @@ db.open("storage.db", function(err) {
 	tabledef.Desc = 'text';
 	tabledef.Created = 'datetime';
 	tabledef.FBId = 'int';
+	tabledef.Temperature = 'int';
+	tabledef.ChildCount = 'int';
+	tabledef.UniqueVisitCount = 'int';
 
 	db.create(tabledef, function (err){ console.log('created Node'); });
 
@@ -22,5 +25,9 @@ db.open("storage.db", function(err) {
 	item.Name = 'Hi';
 	item.Desc = 'OK';
 
-	db.addRow(item, function (err) { console.log('added');});
+	// db.addRow(item, function (err) { console.log('added');});
 });
+
+// TODO:
+// Fix fbId as int
+// Fix type as int
