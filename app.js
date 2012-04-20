@@ -88,9 +88,19 @@ app.post('/postdata', function(req, res){
 });
 
 app.get('/', function(req, res){
-  routes.index(req, res, 'amarblog', function(err, html) {
-    res.end(html);
+  defHget('page', 'main', function(cbHit) {
+    routes.index(req, res, 'amarblog', function(err, html) {
+      cbHit(err, html);  
+    });  
+  }, function (err, html) {
+    if (err != null) {
+      res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
+    } else {
+      res.end(html);  
+    }
   });
+
+  
 });
 
 
