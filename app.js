@@ -87,27 +87,12 @@ app.post('/postdata', function(req, res){
     }));
 });
 
-app.get('/', function(req, res){
-  defHGet('page', 'main', function(cbHit) {
-    console.log('main page cache miss');
-    routes.index(req, res, 'amarblog', function(err, html) {
-      if (err != null) cbHit(err, null);
-      else {
-        defHSet('page', 'main', html, 10, function(err, r) {
-          cbHit(err, html);  
-        });
-      }
-    });  
-  }, function (err, html) {
-      console.log('main page cache hit');
-      if (err != null) {
-        res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
-      } else {
-      res.end(html);  
-    }
+app.get('/', function(req, res){  
+  getPageCached(res, 'page', 'main', 10, function(cb) {
+    db.execute('select * from Node', function(err, rows) {
+      routes.index(req, res, rows, cb);
+    });
   });
-
-  
 });
 
 
@@ -223,5 +208,27 @@ function saveNewNode(type, name, desc, fbId, cb) {
   addDBNode(type, name, desc, fbId, function(err) {
     console.log('status saved.');
     cb(err, 'saved');
+  });
+}
+
+function getPageCached(res, key, value, expiry, cbPageCreate) {
+  defHGet(key, value, function(cbHit) {
+    console.log(key + '_' + value + ' cache miss');
+    
+    cbPageCreate(function(err, html) {
+      if (err != null) cbHit(err, null);
+      else {
+        defHSet('page', 'main', html, expiry, function(err, r) {
+          cbHit(err, html);  
+        });
+      }  
+    });
+  }, function (err, html) {
+      console.log(key + '_' + value + ' cache hit');
+      if (err != null) {
+        res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
+      } else {
+      res.end(html);  
+    }
   });
 }
