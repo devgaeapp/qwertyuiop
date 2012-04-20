@@ -89,13 +89,20 @@ app.post('/postdata', function(req, res){
 
 app.get('/', function(req, res){
   defHget('page', 'main', function(cbHit) {
+    console.log('main page cache miss');
     routes.index(req, res, 'amarblog', function(err, html) {
-      cbHit(err, html);  
+      if (err != null) cbHit(err, null);
+      else {
+        defHSet('page', 'main', html, 10 * 60, function(err, r) {
+          cbHit(err, html);  
+        });
+      }
     });  
   }, function (err, html) {
-    if (err != null) {
-      res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
-    } else {
+      console.log('main page cache hit');
+      if (err != null) {
+        res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
+      } else {
       res.end(html);  
     }
   });
@@ -124,7 +131,7 @@ function getUserFromFacebook(accessToken, cb) {
     request('https://graph.facebook.com/me?access_token=' + accessToken, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 		    var resp = JSON.parse(body);
-		    defHSet("at", accessToken, resp.id, errorCheck(cb, function(r) {
+		    defHSet("at", accessToken, resp.id, 30 * 60, errorCheck(cb, function(r) {
           cb(null, parseInt(resp.id);
         }));
 	    } else {
@@ -160,8 +167,15 @@ function sync(accessToken, cb) {
     }));
 }
 
-function defHSet(key, field, value, cb) {
-  client.set(key + '_' + field, value, cb);
+function defHSet(key, field, value, expire, cb) {
+  var hkey = key + '_' + field;
+  client.set(hkey, value, function(err, r) {
+    if (expire > 0) {
+      client.expire(hkey, expire, cb);
+    } else {
+      cb(err, r);
+    }
+  });
 }
 
 function defHGet(key, field, cbMiss, cbHit) {
