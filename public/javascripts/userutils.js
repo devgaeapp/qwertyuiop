@@ -3,7 +3,7 @@ var userId = null;
 var userName = null;
 var userDataLoaded = false;
 
-var banglaDigits = [০, ১, ২, ৩, ৪, ৫, ৬, ৭, ৮, ৯];
+var banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
 
 function convertToBanglaNumberStr(nStr) {
 	var i = 0;
