@@ -3,6 +3,27 @@ var userId = null;
 var userName = null;
 var userDataLoaded = false;
 
+var banglaDigits = [০, ১, ২, ৩, ৪, ৫, ৬, ৭, ৮, ৯];
+
+function convertToBanglaNumberStr(nStr) {
+	var i = 0;
+	var len = nStr.length;
+	var banglaStr = '';
+
+	for (i = 0; i < len; i++) {
+		var c = nStr[i];
+		if (isNan(c)) {
+			banglaStr += c;
+		} else {
+			banglaStr += banglaDigits[parseInt(c)];
+		}
+	}
+}
+
+function convertToBanglaNumber(n) {
+	return convertToBanglaNumberStr(n.toString());
+}
+
 function sync() {
 	var data = {
 		accessToken : accessToken,
@@ -17,9 +38,9 @@ function sync() {
 			console.log('sync not possible: ' + response);
 		} else {
 			var r = JSON.parse(response);
-			if (r.m > 0) $('#commenticon').append('<span class="menu-bubble">' + r.m.toString() + '</span>');
-			if (r.d > 0) $('#discussionicon').append('<span class="menu-bubble">' + r.d.toString() + '</span>');
-			if (r.f > 0) $('#peopleicon').append('<span class="menu-bubble">' + r.f.toString() + '</span>');
+			if (r.m > 0) $('#commenticon').append('<span class="menu-bubble">' + convertToBanglaNumber(r.m) + '</span>');
+			if (r.d > 0) $('#discussionicon').append('<span class="menu-bubble">' + convertToBanglaNumber(r.d) + '</span>');
+			if (r.f > 0) $('#peopleicon').append('<span class="menu-bubble">' + convertToBanglaNumber(r.f) + '</span>');
 		}
 
 		console.log(response);
@@ -41,7 +62,7 @@ function loadUserData(fbResponse) {
 	  $('#profilehomearrow').html('▼');
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
-	  $('#writeroot').html('<div id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">ব্লগ লিখুন</span><span></span><span onclick="showstatusui()" class="hover-text" id="writestatusdiv">Add a status line</span></div><br/><div id="writediv"></div></div>');
+	  $('#writeroot').html('<div id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">ব্লগ লিখুন</span><span></span><span onclick="showstatusui()" class="hover-text" id="writestatusdiv">স্ট্যাটাস দিন</span></div><br/><div id="writediv"></div></div>');
 
 	  sync();
 
