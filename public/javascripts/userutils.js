@@ -22,7 +22,7 @@ function sync() {
 			if (r.f > 0) $('#peopleicon').append('<span class="menu-bubble">' + r.f.toString() + '</span>');
 		}
 
-		$('#result').html(response);
+		console.log(response);
 	});
 }
 
@@ -41,7 +41,7 @@ function loadUserData(fbResponse) {
 	  $('#profilehomearrow').html('▼');
 	  $('#propic').html('<img src="http://graph.facebook.com/' + response.id  + '/picture" class="smallimg"/>');
 	  $('#altlogin').remove();
-	  $('#writeroot').html('<div id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">Write blog</span><span></span><span onclick="showstatusui()" class="hover-text" id="writestatusdiv">Add a status line</span></div><br/><div id="writediv"></div></div>');
+	  $('#writeroot').html('<div id="writepanel" class="content-segment"><div><span onclick="showblogui()" id="writeblogdiv" class="hover-text">ব্লগ লিখুন</span><span></span><span onclick="showstatusui()" class="hover-text" id="writestatusdiv">Add a status line</span></div><br/><div id="writediv"></div></div>');
 
 	  sync();
 
