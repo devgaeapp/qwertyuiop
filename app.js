@@ -106,7 +106,7 @@ function getUser(accessToken, cb) {
     defHGet("at", accessToken, function (cbHit) {
       getUserFromFacebook(accessToken, cbHit);
     }, errorCheck(cb, function(r) {
-      cb(null, r);
+      cb(null, parseInt(r));
     }));
 }
 
@@ -115,7 +115,7 @@ function getUserFromFacebook(accessToken, cb) {
 	    if (!error && response.statusCode == 200) {
 		    var resp = JSON.parse(body);
 		    defHSet("at", accessToken, resp.id, errorCheck(cb, function(r) {
-          cb(null, resp.id);
+          cb(null, parseInt(resp.id);
         }));
 	    } else {
 		    cb(error, null);
