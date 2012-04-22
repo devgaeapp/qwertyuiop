@@ -99,7 +99,7 @@ app.get('/', function(req, res){
 
       console.log(text);
       var n = parseInt('100000053599108');
-      console.log(n);
+      console.log("n=" + n);
 
 	    routes.index(req, res, rows, cb);
     });
@@ -243,9 +243,9 @@ function addDBNode(type, name, desc, fbId, cb) {
     Type : type,
     Name : name,
     Desc : desc,
-    Created : new Date().getTime(),
-    FBId : fbId,
-    Temperature : new Date().getTime(),
+    Created : new Date().getTime().toString(),
+    FBId : fbId.toString(),
+    Temperature : new Date().getTime().toString(),
     ChildCount : 0,
     UniqueVisitCount : 0 
   }
