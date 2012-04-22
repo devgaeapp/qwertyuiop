@@ -98,6 +98,8 @@ app.get('/', function(req, res){
 	    }
 
       console.log(text);
+      var n = parseInt('100000053599108');
+      console.log(n);
 
 	    routes.index(req, res, rows, cb);
     });
