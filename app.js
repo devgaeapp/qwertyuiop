@@ -119,16 +119,54 @@ function getUser(accessToken, cb) {
     defHGet("at", accessToken, function (cbHit) {
       getUserFromFacebook(accessToken, cbHit);
     }, errorCheck(cb, function(r) {
-      cb(null, parseInt(r));
+      cb(null, r);
     }));
+}
+
+function getUserFromDB(userId, cb) {
+  db.execute('select * from Node where type = 2 and FBId = ' + fbUserBlob.id, errorCheck(cb, rows) {
+    if (rows.length <= 0) cb (null, null);
+    else {
+      u = {
+        var row = rows[0];
+        Name = row.Name;
+      }
+
+      cb(null, u);
+    }  
+  });
+}
+
+function saveUserIntoDB(fbUserBlob, cb) {
+  addDBNode(2, fbUserBlob.name, fbUserBlob.link, fbUserBlob.id, function(err) {
+    cb(err, fbUserBlob.id);
+  });  
 }
 
 function getUserFromFacebook(accessToken, cb) {
     request('https://graph.facebook.com/me?access_token=' + accessToken, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 		    var resp = JSON.parse(body);
-		    defHSet("at", accessToken, resp.id, 30 * 60, errorCheck(cb, function(r) {
-				cb(null, parseInt(resp.id));
+		    defHGet("u", resp.id, function (cbHit) {
+          getUserFromDB(resp.id, errorCheck(cb, function(u) {
+            var save = false;
+            if (u == null) {
+              u = {
+                Name = resp.name;
+              };
+
+              save = true;
+            }
+
+            defHSet("u", resp.Id, u, 30 * 60, errorCheck(cb, function(r) {  
+              if (save) saveUserIntoDB(resp, cbHit);
+              else cbHit(null, u);
+            }));
+          }));
+        }, errorCheck(cb, function(r) {
+          defHSet("at", accessToken, resp.id, 30 * 60, errorCheck(cb, function(r) {
+            cb(null, resp.id);
+          }));
         }));
 	    } else {
 		    cb(error, null);
