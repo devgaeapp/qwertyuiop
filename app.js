@@ -49,8 +49,7 @@ app.configure('production', function(){
 // Routes
 
 app.post('/sync', function(req, res){
-	// res.end('hi: ' + JSON.stringify(req.body));
-    var token = req.body.accessToken;
+	  var token = req.body.accessToken;
     sync(token, function (err, r) {
       if (err != null) {
         res.end('error');
@@ -60,8 +59,6 @@ app.post('/sync', function(req, res){
 	});
 });
 
-function encode_utf8( s ) { return unescape( encodeURIComponent( s ) ); }
-function decode_utf8( s ) { return decodeURIComponent( escape( s ) ); }
 
 app.post('/postdata', function(req, res){
   
@@ -77,10 +74,6 @@ app.post('/postdata', function(req, res){
 
       if (type == 'status') {
         nodeType = 1;
-	var statusText = encode_utf8(req.body.statusText);
-	console.log(req.body.statusText);
-	console.log(statusText);
-	var statusText2 = decode_utf8(statusText);
         name = req.body.statusText;
         desc = '';
       } else if (type == 'blog') {
@@ -90,42 +83,22 @@ app.post('/postdata', function(req, res){
       }
 
       saveNewNode(nodeType, name, desc, fbId, errorCheckRespond(res, function(resBlob) {
-		  // res.end(statusText2);
-		  db.execute('select * from Node', function(err, rows) {
-			  var text = 'data=';
-			  for(i in rows) {
-			      var row = rows[i];
-			      text += row.Name;
-			      console.log(row.Name + ': len=' + row.Name.length);
-			  }
-			  res.end(text);
-		      });
-
+        res.end(resBlob);
       }));
     }));
 });
 
 app.get('/', function(req, res){  
-	/*	db.execute('select * from Node', function(err, rows) {
-
-	var text = 'data=';
-	for(i in rows) {
-	    var row = rows[i];
-	    text += row.Name;
-	    console.log(row.Name + ': len=' + row.Name.length);
-	}
-	res.end(text);
-	});*/
-
 	getPageCached(res, 'page', 'main', 10, function(cb) {
     db.execute('select * from Node', function(err, rows) {
 	    var text = 'data=';
 	    for(i in rows) {
-		var row = rows[i];
-		text += row.Name;
-		console.log(row.Name + ': len=' + row.Name.length);
+		    var row = rows[i];
+		    text += row.Created.toString() + ',';
 	    }
-	    // res.end(text);
+
+      console.log(text);
+
 	    routes.index(req, res, rows, cb);
     });
     });
@@ -265,15 +238,6 @@ function getPageCached(res, key, value, expiry, cbPageCreate) {
 	  console.log(err);
         res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
       } else {
-	  // html = decode_utf8(html);
-	  /*	  fs.writeFile("/tmp/test", html, function(err) {
-		  if(err) {
-		    console.log(err);
-		  } else {
-		      console.log("The file was saved!");
-		  }
-		  }); */
-
 	  res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.end(html);  
     }
