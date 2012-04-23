@@ -95,9 +95,9 @@ app.get('/', function(req, res){
       for (r in rows) {
         var row = rows[r];
         var node = {
-          Title = row.Name,
-          Summary = row.Description,
-          UserFBId = row.FBId
+          Title: row.Name,
+          Summary: row.Description,
+          UserFBId: row.FBId
         }
 
         nodes.append(node);
