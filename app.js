@@ -18,6 +18,7 @@ var sys = require('sys'),
     util = require('util');
 
 var fs = require('fs');
+var async = require('async');
 
 var db = new sqlitedb.Database();
 db.open("storage.db", function(err) {
@@ -92,19 +93,31 @@ app.get('/', function(req, res){
 	getPageCached(res, 'page', 'main', 10, function(cb) {
     db.execute('select * from Node where type = 0 order by Temperature desc', function(err, rows) {
       nodes = [];
+      var fbIdMap = {};
+      var fbIds = []
       for (r in rows) {
         var row = rows[r];
         var node = {
           Title: row.Name,
           Summary: row.Desc,
           UserFBId: row.FBId,
-	  AuthorName: 'Author',
-	  PostTime: row.Created
+	        AuthorName: 'Author',
+	        PostTime: row.Created
+        }
+
+        if (!fbIdMap.hasOwnProperty(row.FBId)) {
+          fbIds.push(row.FBId);
+          fbIdMap[row.FBId] = {};
         }
 
         nodes.push(node);
       }
-	    routes.index(req, res, nodes, cb);
+
+      async.map(fbIds, function (userId, cb) {
+        getUserInfo(userId, cb);
+      }, function(err, results) {
+        routes.index(req, res, nodes, cb);
+      });
     });
   });
 });
