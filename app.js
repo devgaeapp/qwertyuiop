@@ -90,10 +90,21 @@ app.post('/postdata', function(req, res){
 
 app.get('/', function(req, res){  
 	getPageCached(res, 'page', 'main', 10, function(cb) {
-    db.execute('select * from Node', function(err, rows) {
-	    routes.index(req, res, rows, cb);
+    db.execute('select * from Node where type = 0 order by Temperature desc', function(err, rows) {
+      nodes = [];
+      for (r in rows) {
+        var row = rows[r];
+        var node = {
+          Title = row.Name,
+          Summary = row.Description,
+          UserFBId = row.FBId
+        }
+
+        nodes.append(node);
+      }
+	    routes.index(req, res, nodes, cb);
     });
-    });
+  });
 });
 
 

@@ -39,8 +39,8 @@ div(id="wrapper")
 							div(id="writeroot")
 						div
 							- for node in nodes
-								div #{node.Name}
-								div= node.Desc
+								div(class="posttitle") #{node.Title}
+								div(class="postsummary") #{node.Summary}
 								div= node.Temperature
 						
 					td(width="288px", valign="top")
