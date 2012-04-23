@@ -148,6 +148,25 @@ function saveUserIntoDB(fbUserBlob, cb) {
   });  
 }
 
+function getUserInfo(userId, cb) {
+  defHGet("u", userId, function (cbHit) {
+    getUserFromDB(userId, function(err, u) {
+        cbHit(err, u);
+      });
+    }, errorCheck(cb, function(u) {
+      if (u != null) {
+        user = {
+          Id = userId,
+          Name: u.Name
+        };
+
+        cb(null, user);
+      } else {
+        cb('user not found', null);
+      }
+    }));
+}
+
 function getUserFromFacebook(accessToken, cb) {
     request('https://graph.facebook.com/me?access_token=' + accessToken, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
@@ -157,11 +176,11 @@ function getUserFromFacebook(accessToken, cb) {
             var save = false;
             if (u == null) {
               u = {
-		  Name: resp.name
+		            Name: resp.name
               };
 
               save = true;
-	      console.log('user not found in db');
+	           console.log('user not found in db');
             }
 
             defHSet("u", resp.Id, u, 30 * 60, errorCheck(cb, function(r) {  
