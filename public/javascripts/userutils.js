@@ -111,7 +111,7 @@ function updatetime()
                 
         var diffstr = getlocaltimestr(ytime);
 
-        yiktime.innerHTML = diffstr;
+        blogtime.innerHTML = diffstr;
     }
             
     setTimeout("updatetime()", 120000);
