@@ -4,6 +4,7 @@ var userName = null;
 var userDataLoaded = false;
 
 var banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+var months = new Array("জানুয়ারী", "ফেব্রুয়ারী", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "অগাস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর");
 
 function convertToBanglaNumberStr(nStr) {
 	var i = 0;
@@ -27,6 +28,95 @@ function convertToBanglaNumber(n) {
 	return convertToBanglaNumberStr(n.toString());
 }
 
+function twodigitstr(d)
+{
+    if (d < 10)
+    {
+        return convertToBanglaNumber('0' + d.toString());
+    }
+            
+    return convertToBanglaNumber(d.toString());
+}
+
+function getlocaltimestr(t) {
+    var now = new Date().getTime();
+
+    var ago = "আগে";
+    var d = Math.floor((now - t) / 1000);
+    if (d < 0) {
+        ago = "পরে";
+        d = -d;
+    }
+
+    var diffstr = d.toString() + ' সেকেন্ড ' + ago;
+
+    var s = d;
+    if (s < 60) {
+        diffstr = s.toString() + ' সেকেন্ড ' + ago;
+    }
+    else {
+        var m = Math.floor(s / 60);
+        if (m < 60) {
+            s = s % 60;
+            diffstr = twodigitstr(m) + ' মিনিট ' + twodigitstr(s) + ' সেকেন্ড ' + ago;
+        }
+        else {
+            var h = Math.floor(m / 60);
+            if (h < 24) {
+                m = m % 60;
+                diffstr = twodigitstr(h) + ' ঘন্টা ' + twodigitstr(m) + ' মিনিট ' + ago;
+            }
+            else {
+                d = Math.floor(h / 24);
+
+                if (d < 30) {
+                    h = h % 24;
+                    diffstr = twodigitstr(d) + ' দিন ' + twodigitstr(h) + ' ঘন্টা ' + ago;
+                }
+                else {
+
+                    var localtime = t - 0;
+                    var d2 = new Date(localtime);
+
+                    var h = d2.getHours();
+                    var am = "AM";
+                    if (h > 11) {
+                        am = "PM";
+                    }
+
+                    if (h > 12) {
+                        h = h % 12;
+                    }
+
+                    diffstr = months[d2.getMonth()] + ' ' + d2.getDate() + ' ' + d2.getFullYear() + ' ' + twodigitstr(h) + ':' + twodigitstr(d2.getMinutes()) + ' ' + am;
+                }
+            }
+        }
+    }
+
+    return diffstr;
+}
+        
+function updatetime()
+{
+    var blogtimes = document.getElementsByName('blogtime');
+    var c = blogtimes.length;
+    var i = 0;
+            
+    for(i = 0; i < c; i++)
+    {
+        var blogtime = blogtimes[i];
+        var timestr = blogtime.getAttribute('time');
+        var ytime = parseInt(timestr);
+                
+        var diffstr = getlocaltimestr(ytime);
+
+        yiktime.innerHTML = diffstr;
+    }
+            
+    setTimeout("updatetime()", 120000);
+}
+
 function sync() {
 	var data = {
 		accessToken : accessToken,
@@ -47,6 +137,7 @@ function sync() {
 		}
 
 		console.log(response);
+		updatetime();
 	});
 }
 

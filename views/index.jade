@@ -51,7 +51,7 @@ div(id="wrapper")
 													div(class="postauthor")
 														span #{node.AuthorName}
 													div(class="posttime")
-														span #{node.PostTime}
+														span(id="blogtime", name="blogtime", time="#{node.PostTime}") #{node.PostTime} 
 													
 										
 									div(class="postsummary")
