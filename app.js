@@ -83,7 +83,7 @@ app.post('/postdata', function(req, res){
         desc = req.body.content;
       }
 
-      saveNewNode(nodeType, name, desc, fbId, errorCheckRespond(res, function(resBlob) {
+      savePost(nodeType, name, desc, fbId, errorCheckRespond(res, function(resBlob) {
         res.end(resBlob);
       }));
     }));
@@ -276,27 +276,60 @@ function getUserBlob(u, cb) {
   }));  
 }
 
-function addDBNode(type, name, desc, fbId, cb) {
+function addDBNode(type, name, desc, fbId, authorName, cb) {
+
+  var time = new Date().getTime().toString();
+
   var row = {
     __table__ : "Node",
     Type : type,
     Name : name,
     Desc : desc,
-    Created : new Date().getTime().toString(),
+    Created : time,
     FBId : fbId.toString(),
-    Temperature : new Date().getTime().toString(),
+    Temperature : time,
     ChildCount : 0,
-    UniqueVisitCount : 0 
-  }
+    UniqueVisitCount : 0,
+    AuthorName : authorName
+  };
 
-  db.addRow(row, cb);
+  db.addRow(row, errorCheck(cb, function(r) {
+    cb(null, fbId.toString() + "_" + time);
+  });
 }
 
-function saveNewNode(type, name, desc, fbId, cb) {
-  addDBNode(type, name, desc, fbId, function(err) {
-    console.log('status saved.');
-    cb(err, 'saved');
-  });
+function saveNewNode(type, name, desc, fbId, authorName, cb) {
+  addDBNode(type, name, desc, fbId, authorName, errorCheck(cb, function(r) {
+
+  }));
+}
+
+function savePost(type, title, content, fbId, cb) {
+  getUserInfo(fbId, errorCheck(cb, function(u) {
+    var summary;
+    var createNode2 = false;
+    if (content.length > 510) {
+      summary = content.substring(0, 510);
+      createNode2 = true;  
+    } 
+    else summary = content;  
+
+    addDBNode(type, title, summary, fbId, u.Name, errorCheck(cb, function(id) {
+      if (createNode2) {
+        var node2 = {
+          __table__ : "Node2",
+          NodeId : id,
+          Content : content
+        };
+
+        db.addRow(node2, errorCheck(cb, function(r) {
+          cb (null, id);
+        }));
+      } else {
+        cb (null, id);
+      }
+    }));
+  }));
 }
 
 function getPageCached(res, key, value, expiry, cbPageCreate) {
@@ -314,10 +347,10 @@ function getPageCached(res, key, value, expiry, cbPageCreate) {
   }, function (err, html) {
       console.log(key + '_' + value + ' cache hit');
       if (err != null) {
-	  console.log(err);
+    	  console.log(err);
         res.end('Site is probably down, it should come back at some time, if not call this guy admin@amarblog.com');
       } else {
-	  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+	    res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.end(html);  
     }
   });
