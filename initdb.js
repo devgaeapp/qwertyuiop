@@ -23,7 +23,7 @@ db.open("storage.db", function(err) {
 
 	var node2def = {};
 	node2def.__name__ = 'Node2';
-	node2def.NodeId = 'int';
+	node2def.NodeId = 'varchar(32)';
 	node2def.Content = 'text';
 
 	db.create(node2def, function(err) { console.log('created Node2')});
