@@ -11,21 +11,22 @@ db.open("storage.db", function(err) {
 	tabledef.__name__ = 'Node';
 	tabledef.Type = 'int'; // 0 - post, 1 - status. 2 - author, 3 - image, 4 - comment
 	tabledef.Name = 'varchar(512)'; // or Title
-	tabledef.Desc = 'text';
+	tabledef.Desc = 'varchar(512)'; // Summary
 	tabledef.Created = 'int8';
 	tabledef.FBId = 'int8';
 	tabledef.Temperature = 'int8';
 	tabledef.ChildCount = 'int';
 	tabledef.UniqueVisitCount = 'int';
+	tabledef.AuthorName = 'varchar(128)'
 
 	db.create(tabledef, function (err){ console.log('created Node'); });
 
-	var item = {};
-	item.__table__ = 'Node';
-	item.Name = 'Hi';
-	item.Desc = 'OK';
+	var node2def = {};
+	node2def.__name__ = 'Node2';
+	node2def.NodeId = 'int';
+	node2def.Content = 'text';
 
-	// db.addRow(item, function (err) { console.log('added');});
+	db.create(node2def, function(err) { console.log('created Node2')});
 });
 
 // TODO:
