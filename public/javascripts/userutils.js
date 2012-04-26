@@ -117,26 +117,29 @@ function updatetime()
     setTimeout("updatetime()", 120000);
 }
 
+function updateBubble(elementId, value) {
+	$(elementId).html('');
+	if (value > 0 ) $(elementId).append('<span class="menu-bubble">' + convertToBanglaNumber(value) + '</span>');
+}
+
 function sync() {
 	var data = {
 		accessToken : accessToken,
 		userId : userId
 	};
 
-	console.log('accessToken: ' + accessToken);
-	console.log('POSTDATA: ' + JSON.stringify(data));
+	console.log('sync called.')
 
 	$.post('/sync', data, function(response) {
 		if (response == 'error') {
 			console.log('sync not possible: ' + response);
 		} else {
 			var r = JSON.parse(response);
-			if (r.m > 0) $('#commenticon').append('<span class="menu-bubble">' + convertToBanglaNumber(r.m) + '</span>');
-			if (r.d > 0) $('#discussionicon').append('<span class="menu-bubble">' + convertToBanglaNumber(r.d) + '</span>');
-			if (r.f > 0) $('#peopleicon').append('<span class="menu-bubble">' + convertToBanglaNumber(r.f) + '</span>');
+			updateBubble('#commenticon', r.m);
+			updateBubble('#discussionicon', r.d);
+			updateBubble('#peopleicon', r.f);
 		}
 
-		console.log(response);
 		updatetime();
 	});
 }
@@ -200,7 +203,7 @@ function loginFb() {
 	    cookie     : true, // enable cookies to allow the server to access the session
 	    xfbml      : true, // parse XFBML
 	    frictionlessRequests:true,
-	    channelUrl : 'http://localhost:8000/javascripts/channel.html'
+	    channelUrl : 'http://192.168.2.14:8000/javascripts/channel.html'
 	  });
 
 	FB.login(function(response) {
@@ -245,7 +248,7 @@ function requestCallback(response) {
 
 function loginCallback(response) {
   if (response.status == 'connected') {
-      console.log('connected, OK?')
+      console.log('login = connected')
       loadUserData(response);
   }
 
@@ -274,6 +277,8 @@ window.fbAsyncInit = function() {
   js.src = "//connect.facebook.net/en_US/all.js";
   d.getElementsByTagName('head')[0].appendChild(js);
 }(document));
+
+console.log('async login');
 
 FB.Event.subscribe('auth.authResponseChange', function(response) {
   // alert('The status of the session is: ' + response.status);
