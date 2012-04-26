@@ -116,6 +116,21 @@ function updatetime()
     setTimeout("updatetime()", 120000);
 }
 
+function updatelinks()
+{
+    var detailslinks = document.getElementsByName('detailslink');
+    var c = detailslinks.length;
+    var i = 0;
+            
+    for(i = 0; i < c; i++)
+    {
+        var detailslink = detailslinks[i];
+        var linkId = detailslink.getAttribute('link');
+        
+        blogtime.innerHTML = '<span> </span><span class="detailslink" onclick="showdetails(\'' + linkId + '\')">পুরোটা পড়ুন</span><span> </span><a class="bloglink" target="_blank" href="/post/' + linkId + '">ব্লগের লিংক</a>';
+    }            
+}
+
 function updateBubble(elementId, value) {
 	$('#' + elementId + '-bubble').remove;
 	if (value > 0 ) $('#' + elementId).append('<span class="menu-bubble" id="' + elementId + '-bubble">' + convertToBanglaNumber(value) + '</span>');
@@ -139,7 +154,6 @@ function sync() {
 			updateBubble('peopleicon', r.f);
 		}
 
-		updatetime();
 	});
 }
 
@@ -278,12 +292,18 @@ window.fbAsyncInit = function() {
 }(document));
 
 console.log('async login');
+init();
 
 FB.Event.subscribe('auth.authResponseChange', function(response) {
   // alert('The status of the session is: ' + response.status);
   console.log('auth.authResponseChange');
   loginCallback(response);
 });
+
+function init() {
+	updatetime();
+	updatelinks();
+}
 
 
 function showblogui() {
@@ -408,4 +428,3 @@ $(document).click(function(e) {
 	}
 });
 
-updatetime();

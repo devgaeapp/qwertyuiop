@@ -54,7 +54,7 @@ div(id="wrapper")
 														span(id="blogtime", name="blogtime", time="#{node.Created}") #{node.Created} 
 													
 										
-									div(class="postsummary")
+									div(class="postsummary", id="details_#{node.Id}")
 										span #{node.Desc}
 										span(id="detailslink", name="detailslink", link="#{node.Id}") ...
 									
