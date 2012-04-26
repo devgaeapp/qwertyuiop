@@ -41,22 +41,23 @@ div(id="wrapper")
 							- for node in nodes					      
 								div(class="content-segment")
 									div(class="posttitle")
-										span #{node.Title}
+										span #{node.Name}
 									div
 										table
 											tr
 												td
-													img(src="http://graph.facebook.com/#{node.UserFBId}/picture", class="smallimgb")
+													img(src="http://graph.facebook.com/#{node.FBId}/picture", class="smallimgb")
 												td
 													div(class="postauthor")
 														span #{node.AuthorName}
 													div(class="posttime")
-														span(id="blogtime", name="blogtime", time="#{node.PostTime}") #{node.PostTime} 
+														span(id="blogtime", name="blogtime", time="#{node.Created}") #{node.Created} 
 													
 										
 									div(class="postsummary")
-										span #{node.Summary}
-									div= node.Temperature
+										span #{node.Desc}
+										a(class="detailslink", href="/post/#{node.Id}") see more
+									
 						
 					td(width="288px", valign="top")
 

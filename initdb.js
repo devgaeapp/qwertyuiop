@@ -9,6 +9,7 @@ db.open("storage.db", function(err) {
 
 	var tabledef = {};
 	tabledef.__name__ = 'Node';
+	tabledef.Id = 'varchar(32)';
 	tabledef.Type = 'int'; // 0 - post, 1 - status. 2 - author, 3 - image, 4 - comment
 	tabledef.Name = 'varchar(512)'; // or Title
 	tabledef.Desc = 'varchar(512)'; // Summary

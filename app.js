@@ -92,21 +92,7 @@ app.post('/postdata', function(req, res){
 app.get('/', function(req, res){  
 	getPageCached(res, 'page', 'main', 10, function(cb) {
     db.execute('select * from Node where type = 0 order by Temperature desc', function(err, rows) {
-      nodes = [];
-      for (r in rows) {
-        var row = rows[r];
-        var node = {
-          Title: row.Name,
-          Summary: row.Desc,
-          UserFBId: row.FBId,
-	        AuthorName: row.AuthorName,
-	        PostTime: row.Created
-        }
-
-        nodes.push(node);
-      }
-
-      routes.index(req, res, nodes, cb);
+      routes.index(req, res, rows, cb);
     });
   });
 });
@@ -272,9 +258,11 @@ function getUserBlob(u, cb) {
 function addDBNode(type, name, desc, fbId, authorName, cb) {
 
   var time = new Date().getTime().toString();
+  var id = fbId.toString() + "_" + time;
 
   var row = {
     __table__ : "Node",
+    Id: id,
     Type : type,
     Name : name,
     Desc : desc,
@@ -287,7 +275,7 @@ function addDBNode(type, name, desc, fbId, authorName, cb) {
   };
 
   db.addRow(row, errorCheck(cb, function(r) {
-    cb(null, fbId.toString() + "_" + time);
+    cb(null, id);
 	  }));
 }
 
