@@ -315,8 +315,9 @@ function saveBlog() {
 
 	$.post('/postdata', data, function(response) {
 		console.log(response);
-		$post_title.removeAttr('disabled');
-		$post_content.removeAttr('disabled');
+		// $post_title.removeAttr('disabled');
+		// $post_content.removeAttr('disabled');
+		updatePostDataResponse(response, 'blog');
 	});
 }
 
@@ -335,8 +336,21 @@ function postStatus()
 
 	$.post('/postdata', data, function(response) {
 		console.log(response);
-		$statusinput.removeAttr('disabled');
+		// $statusinput.removeAttr('disabled');
+
+		updatePostDataResponse(response, 'status');
 	});
+}
+
+function updatePostDataResponse(response, postType) {
+	var content = '';
+	if (response == 'error') {
+		content = 'আপনার লেখাটি সার্ভারে রাখতে গিয়ে ঝামেলা হয়ে গেছে, হয়তো ইন্টারনেট কানেকশনে কোন গন্ডগোল হয়েছে, কয়েকবার চেষ্টার পরও সমস্যা থাকলে এডমিনকে ইমেইল করুন।';
+	} else {
+		content = 'আপনার লেখাটি এখানে <a href="/' + postType + '/' + response + '">পাবলিশ</a> হয়েছে, মুল পাতা ও অন্যান্য পাতায় শীঘ্রই চলে আসবে, বিশ্লেষনের জন্য বেশ কয়েক মিনিট সময় লাগতে পারে।';
+	}
+
+	$('#writediv').html(content);
 }
 
 function showstatusui() {
