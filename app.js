@@ -112,6 +112,10 @@ app.get('/', function(req, res){
 });
 
 
+app.get('/post/:id', function(req. res) {
+  res.end(req.param.id);
+});
+
 app.listen(8000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
@@ -206,8 +210,7 @@ function getUserFromFacebook(accessToken, cb) {
 function errorCheck(cb, f) {
   return function (e, r) {
     if (e != null) {
-	throw e;
-      logError(e);
+	    logError(e);
       cb(e, null);
     }
     else f(r);  
