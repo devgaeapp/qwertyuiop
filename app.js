@@ -336,12 +336,14 @@ function savePost(type, title, content, fbId, cb) {
 
 function getPageCached(res, key, value, expiry, cbPageCreate) {
   defHGet(key, value, function(cbHit) {
-    console.log(key + '_' + value + ' cache miss');
+    console.log(key + '_' + value + ' cache missed');
     
     cbPageCreate(function(err, html) {
+      console.log('page created, err = ' + err);
       if (err != null) cbHit(err, null);
       else {
         defHSet(key, value, html, expiry, function(err, r) {
+          console.log('page saved');
           cbHit(err, html);  
         });
       }  
