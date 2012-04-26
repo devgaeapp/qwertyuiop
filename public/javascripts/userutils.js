@@ -291,9 +291,6 @@ window.fbAsyncInit = function() {
   d.getElementsByTagName('head')[0].appendChild(js);
 }(document));
 
-console.log('async login');
-init();
-
 FB.Event.subscribe('auth.authResponseChange', function(response) {
   // alert('The status of the session is: ' + response.status);
   console.log('auth.authResponseChange');
@@ -428,3 +425,6 @@ $(document).click(function(e) {
 	}
 });
 
+$(window).load(function() {
+	init();
+});
