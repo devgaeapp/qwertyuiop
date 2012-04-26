@@ -13,7 +13,6 @@ function convertToBanglaNumberStr(nStr) {
 
 	for (i = 0; i < len; i++) {
 		var c = nStr[i];
-		console.log(c);
 		if (isNaN(c)) {
 			banglaStr += c;
 		} else {
@@ -118,8 +117,8 @@ function updatetime()
 }
 
 function updateBubble(elementId, value) {
-	$(elementId).html('');
-	if (value > 0 ) $(elementId).append('<span class="menu-bubble">' + convertToBanglaNumber(value) + '</span>');
+	$('#' + elementId + '-bubble').remove;
+	if (value > 0 ) $('#' + elementId).append('<span class="menu-bubble" id="' + elementId + '-bubble">' + convertToBanglaNumber(value) + '</span>');
 }
 
 function sync() {
@@ -135,9 +134,9 @@ function sync() {
 			console.log('sync not possible: ' + response);
 		} else {
 			var r = JSON.parse(response);
-			updateBubble('#commenticon', r.m);
-			updateBubble('#discussionicon', r.d);
-			updateBubble('#peopleicon', r.f);
+			updateBubble('commenticon', r.m);
+			updateBubble('discussionicon', r.d);
+			updateBubble('peopleicon', r.f);
 		}
 
 		updatetime();
