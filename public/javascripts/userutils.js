@@ -116,6 +116,28 @@ function updatetime()
     setTimeout("updatetime()", 120000);
 }
 
+function processText(text) {
+	return text;
+}
+
+function showdetails(id) {
+	var data = {
+		accessToken : accessToken,
+		userId : userId
+	};
+
+	var $details = $('#details_' + id);
+
+	$.post('/post/' + id, data, function(response) {
+		if (response == 'error') {
+			alert('server not responding properly.');
+		} else {
+			var text = processText(response);
+			$details.html(text);
+		}
+	});
+}
+
 function updatelinks()
 {
     var detailslinks = document.getElementsByName('detailslink');
