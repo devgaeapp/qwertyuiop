@@ -341,7 +341,7 @@ function getPageCached(res, key, value, expiry, cbPageCreate) {
     cbPageCreate(function(err, html) {
       if (err != null) cbHit(err, null);
       else {
-        defHSet('page', 'main', html, expiry, function(err, r) {
+        defHSet(key, value, html, expiry, function(err, r) {
           cbHit(err, html);  
         });
       }  
