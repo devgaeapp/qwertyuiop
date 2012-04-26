@@ -117,7 +117,7 @@ function updatetime()
 }
 
 function processText(text) {
-	return text;
+	return text.replace(/\n/g, "<br />");
 }
 
 function showdetails(id) {
@@ -131,6 +131,8 @@ function showdetails(id) {
 	$.post('/post/' + id, data, function(response) {
 		if (response == 'error') {
 			alert('server not responding properly.');
+		} else if (response == 'nomore') {
+			// fix this.
 		} else {
 			var text = processText(response);
 			$details.html(text);
