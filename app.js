@@ -103,7 +103,16 @@ app.get('/post/:id', function(req, res) {
 });
 
 app.post('/post/:id', function(req, res) {
-  res.end('id = ' + req.params.id);
+  getPageCached(res, 'content', req.params.id, 30 * 60, function(cb) {
+    db.execute('select * from Node2 where NodeId = "' + req.params.id + '"', function(err, rows) {
+      if (rows.length > 0) {
+        var row = rows[0];
+        res.end(row.Content);
+      } else {
+        res.end('cant load details.');
+      }
+    });
+  });
 });
 
 app.listen(8000, function(){
