@@ -281,6 +281,7 @@ console.log('async login');
 
 FB.Event.subscribe('auth.authResponseChange', function(response) {
   // alert('The status of the session is: ' + response.status);
+  console.log('auth.authResponseChange');
   loginCallback(response);
 });
 
