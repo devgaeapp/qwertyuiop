@@ -113,7 +113,7 @@ app.get('/', function(req, res){
 
 
 app.get('/post/:id', function(req, res) {
-  res.end('id =' + req.param.id);
+  res.end('id = ' + req.params.id);
 });
 
 app.listen(8000, function(){
