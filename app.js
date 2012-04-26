@@ -100,27 +100,27 @@ app.get('/', function(req, res){
 
 app.get('/post/:id', function(req, res) {
   getPageCached(res, 'content', req.params.id, 30 * 60, function(cb) {
-    db.execute('select * from Node2 where NodeId = "' + req.params.id + '"', function(err, rows) {
+    db.execute('select * from Node2 where NodeId = "' + req.params.id + '"', errorCheck(cb, function(rows) {
       if (rows.length > 0) {
         var row = rows[0];
-        res.end(row.Content);
+        cb(null, row.Content);
       } else {
-        res.end('cant load details.');
+        cb(null, 'cant load details.');
       }
-    });
+    }));
   });
 });
 
 app.post('/post/:id', function(req, res) {
   getPageCached(res, 'content', req.params.id, 30 * 60, function(cb) {
-    db.execute('select * from Node2 where NodeId = "' + req.params.id + '"', function(err, rows) {
+    db.execute('select * from Node2 where NodeId = "' + req.params.id + '"', errorCheck(cb, function(rows) {
       if (rows.length > 0) {
         var row = rows[0];
-        res.end(row.Content);
+        cb(null, row.Content);
       } else {
-        res.end('cant load details.');
+        cb(null, 'cant load details.');
       }
-    });
+    }));
   });
 });
 
