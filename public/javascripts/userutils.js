@@ -357,10 +357,30 @@ function saveBlog() {
 	$.post('/postdata', data, function(response) {
 		console.log(response);
 
-
+		if ($('#fbpublish').is(':checked')) {
+			publishToFB(data.title, data.content, response);
+		}
 
 		updatePostDataResponse(response, 'blog');
 	});
+}
+
+function publishToFB(title, summary, id) {
+	var params = {};
+	params['message'] = title;
+	params['name'] = 'Name';
+	params['description'] = summary;
+	params['link'] = 'http://http://23.21.112.182/blog/' + id;
+	params['picture'] = 'http://www.tooctac.com/p/619168';
+	params['caption'] = 'Amarblog';
+	  
+	FB.api('/me/feed', 'post', params, function(response) {
+	  if (!response || response.error) {
+	    console.log('Error occured');
+	  } else {
+	    console.log('Published to stream - you might want to delete it now!');
+	  }
+	});	
 }
 
 function postStatus()
