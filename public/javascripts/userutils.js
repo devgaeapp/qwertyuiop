@@ -370,7 +370,7 @@ function publishToFB(title, summary, id) {
 	params['message'] = title;
 	params['name'] = 'Name';
 	params['description'] = summary;
-	params['link'] = 'http://http://23.21.112.182/blog/' + id;
+	params['link'] = 'http://23.21.112.182/blog/' + id;
 	params['picture'] = 'http://www.tooctac.com/p/619168';
 	params['caption'] = 'Amarblog';
 	  
