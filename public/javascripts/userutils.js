@@ -156,7 +156,7 @@ function updatelinks()
 }
 
 function updateBubble(elementId, value) {
-	$('#' + elementId + '-bubble').remove;
+	$('#' + elementId + '-bubble').remove();
 	if (value > 0 ) $('#' + elementId).append('<span class="menu-bubble" id="' + elementId + '-bubble">' + convertToBanglaNumber(value) + '</span>');
 }
 
