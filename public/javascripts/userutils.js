@@ -250,7 +250,7 @@ function loginFb() {
 	   } else {
 	     console.log('User cancelled login or did not fully authorize.');
 	   }
-	 },  { scope: 'publish_stream' });
+	 },  { scope: 'publish_actions' });
 }
 
 
