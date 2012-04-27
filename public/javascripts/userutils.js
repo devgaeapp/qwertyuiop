@@ -429,6 +429,7 @@ function showhomemenu() {
 	$('#content').append('<div id="homemenu" style="right: ' + right + 'px; top: ' + top + 'px;" class="dropdownmenu">' + 
 		'<table width="100%">' + 
 			'<tr><td><div class="menuitem">Account Settings</div></td></tr>' + 
+			'<tr><td><div class="menuitem" onclick="showblogui()">ব্লগ লিখুন</div></td></tr>' + 
 			'<tr><td><div class="menuitem" onclick="logout()">Log out</div></td></tr>' + 
 		'</table>' +
 		'</div>');
