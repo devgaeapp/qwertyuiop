@@ -376,7 +376,7 @@ function publishToFB(title, summary, id) {
 	  
 	FB.api('/me/feed', 'post', params, function(response) {
 	  if (!response || response.error) {
-	    console.log('Error occured');
+	    console.log('Error occured: ' + response.error);
 	  } else {
 	    console.log('Published to stream - you might want to delete it now!');
 	  }
