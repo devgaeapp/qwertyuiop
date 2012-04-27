@@ -328,7 +328,7 @@ function init() {
 
 
 function showblogui() {
-	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton" id="saveblog">Post</a></div><br />');
+	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton" id="saveblog">পাবলিশ করুন</a><span> </span><input type="checkbox" checked="checked" id="fbpublish"><span>ফেসবুকেও পাবলিশ করুন</span></div><br />');
 	makePhoneticEditor('post_title');
 	makePhoneticEditor('post_content');
 	$('#writeblogdiv').attr('class', 'hover-text-sel');
@@ -356,8 +356,9 @@ function saveBlog() {
 
 	$.post('/postdata', data, function(response) {
 		console.log(response);
-		// $post_title.removeAttr('disabled');
-		// $post_content.removeAttr('disabled');
+
+
+
 		updatePostDataResponse(response, 'blog');
 	});
 }
