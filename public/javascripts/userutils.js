@@ -151,7 +151,7 @@ function updatelinks()
         var detailslink = detailslinks[i];
         var linkId = detailslink.getAttribute('link');
         
-        detailslink.innerHTML = '<span> </span><span class="detailslink" onclick="showdetails(\'' + linkId + '\')">পুরোটা পড়ুন</span><span> </span><a class="bloglink" target="_blank" href="/post/' + linkId + '">ব্লগের লিংক</a>';
+        detailslink.innerHTML = '<span> </span><span class="detailslink" onclick="showdetails(\'' + linkId + '\')">পুরোটা পড়ুন</span>';
     }            
 }
 
