@@ -357,14 +357,23 @@ function saveBlog() {
 	$.post('/postdata', data, function(response) {
 		console.log(response);
 
-		$('#postblog').dialog({modal:true}); 
 
 		if ($('#fbpublish').is(':checked')) {
 			publishToFB(data.title, data.content, response);
 		}
 
 		updatePostDataResponse(response, 'blog');
-	});
+
+		$('#postblog').dialog({ height: 350,
+                        width: 400,
+                        modal: true,
+                        position: 'center',
+                        autoOpen:false,
+                        title:'Hello World',
+                        overlay: { opacity: 0.5, background: 'black'}
+                        }); 
+
+		});
 }
 
 function publishToFB(title, summary, id) {
