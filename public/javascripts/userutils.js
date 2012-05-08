@@ -336,7 +336,15 @@ function showblogui() {
 
 	$.post('/gettopics/', data, function(response) {
 		console.log(response);
-		var topics = '<select><option>abc</option><option>def</option><option>ghi</option></select>';
+		var topics = '<select>';
+		var r = JSON.parse(response);
+
+		for(var i = 0; i < r.t.length; i++) {
+			topics = topics + '<option>' + r.t[i] + '</option>';
+		}
+
+		topics = topics + '</select>';
+
 		$('#writediv').html('<div><input type="text" id="post_title" placeholder="শিরোনাম" style="width: 462px;"></div><div><textarea placeholder="ব্লগের বক্তব্য এখানে লিখুন" rows="10" style="width: 460px;" id="post_content" ></textarea></div>' +
 				'<div><span>আপনার লেখাটি যদি চলমান কোন বিষয়ের ওপর হয়ে থাকে তাহলে এই লিস্ট থেকে সিলেক্ট করুন, এ মুহুর্তে আলোচিত টপিকের সাথে লিংকড হলে আপনার লেখা বেশী এক্সপোজার পাবে (<a href="#">ভুল বা অপ্রাসঙ্গিক লিংকের পেনাল্টি দেখুন</a>)। এগুলোর কোনটি না হলে সম্পাদকের কাছে নতুন বিষয়ের জন্য <a href="#">আবেদন করুন</a>।</span></div>' + 
 				'<div><span><b>টপিক</b></span><span> </span><span>' + topics + '</span></div>' + 
