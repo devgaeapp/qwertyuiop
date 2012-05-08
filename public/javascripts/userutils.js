@@ -328,7 +328,9 @@ function init() {
 
 
 function showblogui() {
-	$('#writediv').html('<div><input type="text" id="post_title" placeholder="শিরোনাম" style="width: 462px;"></div><div><textarea placeholder="ব্লগের বক্তব্য এখানে লিখুন" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton" id="saveblog">পাবলিশ করুন</a><span> </span><input type="checkbox" checked="checked" id="fbpublish"><span>ফেসবুকেও পাবলিশ করুন</span></div><br />');
+	$('#writediv').html('<div><input type="text" id="post_title" placeholder="শিরোনাম" style="width: 462px;"></div><div><textarea placeholder="ব্লগের বক্তব্য এখানে লিখুন" rows="10" style="width: 460px;" id="post_content" ></textarea></div>' +
+			'<div><span>আপনার লেখাটি যদি চলমান কোন বিষয়ের ওপর হয়ে থাকে তাহলে এই লিস্ট থেকে সিলেক্ট করুন, এ মুহুর্তে আলোচিত টপিকের সাথে লিংকড হলে আপনার লেখা বেশী এক্সপোজার পাবে (<a href="#">ভুল বা অপ্রাসঙ্গিক লিংকের পেনাল্টি দেখুন</a>)। এগুলোর কোনটি না হলে সম্পাদকের কাছে বিষয়ের জন্য <a href="#">আবেদন করুন</a>।</span></div>' + 
+			'<div><a class="blogbutton" id="saveblog">পাবলিশ করুন</a><span> </span><input type="checkbox" checked="checked" id="fbpublish"><span>ফেসবুকেও পাবলিশ করুন</span></div><br />');
 	makePhoneticEditor('post_title');
 	makePhoneticEditor('post_content');
 	$('#writeblogdiv').attr('class', 'hover-text-sel');
