@@ -348,7 +348,7 @@ function showblogui() {
 		$('#saveblog').click(function() {
 			saveBlog();
 		});
-	}
+	});
 }
 
 function saveBlog() {
