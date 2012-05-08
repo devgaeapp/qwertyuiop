@@ -294,7 +294,7 @@ function loginCallback(response) {
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '416264245068541', // App ID 265960760161504, 416264245068541
+    appId      : '265960760161504', // App ID 265960760161504, 416264245068541
     status     : true, // check login status
     cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true, // parse XFBML
@@ -328,7 +328,7 @@ function init() {
 
 
 function showblogui() {
-	$('#writediv').html('<div><input type="text" id="post_title" placeholder="title" style="width: 462px;"></div><div><textarea placeholder="content goes here" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton" id="saveblog">পাবলিশ করুন</a><span> </span><input type="checkbox" checked="checked" id="fbpublish"><span>ফেসবুকেও পাবলিশ করুন</span></div><br />');
+	$('#writediv').html('<div><input type="text" id="post_title" placeholder="শিরোনাম" style="width: 462px;"></div><div><textarea placeholder="ব্লগের বক্তব্য এখানে লিখুন" rows="10" style="width: 460px;" id="post_content" ></textarea></div><br/><div><a class="blogbutton" id="saveblog">পাবলিশ করুন</a><span> </span><input type="checkbox" checked="checked" id="fbpublish"><span>ফেসবুকেও পাবলিশ করুন</span></div><br />');
 	makePhoneticEditor('post_title');
 	makePhoneticEditor('post_content');
 	$('#writeblogdiv').attr('class', 'hover-text-sel');
