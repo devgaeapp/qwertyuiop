@@ -357,6 +357,8 @@ function saveBlog() {
 	$.post('/postdata', data, function(response) {
 		console.log(response);
 
+		$('#postblog').dialog({modal:true}); 
+
 		if ($('#fbpublish').is(':checked')) {
 			publishToFB(data.title, data.content, response);
 		}
