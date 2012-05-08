@@ -60,7 +60,7 @@ app.post('/sync', function(req, res){
 	});
 });
 
-app.post('/sync', function(req, res){
+app.post('/gettopics', function(req, res){
     res.end("{'xyz', 'jkl', 'pqr'}");
 });
 
