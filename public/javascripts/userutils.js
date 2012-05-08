@@ -364,14 +364,17 @@ function saveBlog() {
 
 		updatePostDataResponse(response, 'blog');
 
-		$('#postblog').dialog({ height: 350,
+		var $dlg = $('#postblog');
+		$dlg.dialog({ height: 350,
                         width: 400,
                         modal: true,
                         position: 'center',
-                        autoOpen:false,
                         title:'Hello World',
                         overlay: { opacity: 0.5, background: 'black'}
-                        }); 
+                        });
+
+        $dlg.show();
+        $dlg.dialog('open'); 
 
 		});
 }
