@@ -61,7 +61,7 @@ app.post('/sync', function(req, res){
 });
 
 app.post('/gettopics', function(req, res){
-    res.end("{ 't' : ['xyz', 'jkl', 'pqr']}");
+    res.end('{ "t" : ["xyz", "jkl", "pqr"]}');
 });
 
 app.post('/postdata', function(req, res){
