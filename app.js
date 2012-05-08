@@ -60,6 +60,9 @@ app.post('/sync', function(req, res){
 	});
 });
 
+app.post('/sync', function(req, res){
+    res.end("{'xyz', 'jkl', 'pqr'}");
+});
 
 app.post('/postdata', function(req, res){
   
